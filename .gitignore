@@ -1,0 +1,61 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.vscode/
+.idea/
+.DS_Store
+*.log
+
+# TypeScript
+*.tsbuildinfo
+
+# Entorno de desarrollo
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+
+# Salida de compilación
+dist/
+build/
+out/
+
+# Caché de dependencias
+.pnpm-store/
+.vite/
+.cache/
+
+# Archivos de configuración de dependencias y herramientas
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Logs y archivos de estado
+coverage/
+*.pid
+*.seed
+*.tgz
+
+# PostgreSQL y bases de datos
+pgdata/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+
+# Cliente (Vite + React)
+client/node_modules/
+client/dist/
+client/.vite/
+
+# Servidor (Node.js)
+src/server/node_modules/
+src/server/build/
+
+# Otros
+*.swp
