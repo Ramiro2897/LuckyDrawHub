@@ -1,0 +1,213 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: #CBD0D6;
+}
+
+/* contenedor principal */
+.container {
+  text-align: center;
+  border: 2px solid red;
+}
+
+.container .info{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  background-color: #5c84ad;
+}
+
+/* estilos para el header */
+.container .header{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  background-color: #001233;
+  padding: 0px 20px;
+}
+
+/* estilos para el logo */
+.container .header .logo {
+  width: 120px;  
+  height: 120px; 
+  border-radius: 50%; 
+  border: 2px solid rgba(187, 157, 157, 0.1); 
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  object-fit: cover; 
+}
+
+.container .header .textInfo{
+  margin-top: 10px;
+}
+
+.container .section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos bajen cuando no haya espacio */
+  border: 5px solid green;
+  padding: 60px;
+}
+
+.container .section .left,
+.container .section .right {
+  flex: 1 1 350px; /* Crece, se reduce y tiene un tamaño mínimo de 300px */
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 2px solid red;
+}
+
+/* estilos para el contenido de la izquierda */
+.container .section .left p{
+  width: 80%;
+  padding: 10px;
+  font-size: 1.4rem;
+  background-color: #5c84ad;
+  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* stilos para las imagenes */
+.container .section .left .image{
+  width: 80%;
+  height: 320px;
+  margin-top: 30px;
+  border-radius: 10px;
+  border: 2px solid rgba(187, 157, 157, 0.3); 
+}
+
+/* slider de imagenes */
+.container .section .left .slider{
+  width: 80%;
+  height: 100px;
+  margin-top: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+/* estilos para el contenido de la derecha */
+.container .section .right .text{
+  width: 80%;
+  color: #001233;
+  padding: 10px;
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4), 
+  -2px -2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.container .section .right .cardOne, 
+.container .section .right .cardTwo, 
+.container .section .right .cardThree {
+  width: 80%;
+  height: 100px;
+  margin: 20px 0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 5px;
+  border: 1px solid black;
+}
+
+.container .section .right .cardOne .contentImage, 
+.container .section .right .cardTwo .contentImage, 
+.container .section .right .cardThree, .contentImage {
+  padding: 0 5px;
+}
+
+.container .section .right .cardOne p, 
+.container .section .right .cardTwo p, 
+.container .section .right .cardThree p{
+  color: #333;
+  font-size: .8rem;
+  padding: 0 5px;
+}
+
+
+
+
+
+
+
+
+
+
+.title {
+  font-size: 2rem;
+  color: #333;
+}
+
+.button {
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+
+
+
+/* estilos responsivos */
+@media (max-width: 768px) {
+  .container .header{
+    flex-direction: column;
+  }
+
+  .container .header .logo {
+    width: 80px;  /* Reduce el tamaño */
+    height: 80px;
+  }
+
+  .container .header .textInfo{
+    margin-bottom: 20px;
+  }
+
+  .container .section {
+    padding: 20px;
+  }  
+
+   /* contenido de la izquierda */
+  .container .section .left p{
+    width: 100%;
+  }
+
+  .container .section .left .image{
+    width: 100%;
+  }
+
+  .container .section .left .slider{
+    width: 100%;
+  }
+
+  /* contenido de la derecha */
+  .container .section .right p{
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .container .section .right .cardOne, 
+  .container .section .right .cardTwo, 
+  .container .section .right .cardThree {
+  width: 100%;
+}
+}
