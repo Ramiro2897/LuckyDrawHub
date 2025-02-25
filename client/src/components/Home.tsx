@@ -1,6 +1,10 @@
 import styles from '../styles/home.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faTrophy, faSearch  } from '@fortawesome/free-solid-svg-icons';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
+import { Navigation } from "swiper/modules";
+import image from '../assets/image.jpg';
 
 const Home = () => {
   return (
@@ -29,11 +33,48 @@ const Home = () => {
           <p> ¡Gran sorteo de un espectacular Caballo capon 🐎 
             Trocha Pura Totalmente Aperado 🤩!
           </p>
-          <div className={styles.image}>
 
+          {/* contenido de images con slider */}
+          <div className={styles.image}>
+             {/* Aquí va tu contenido de imagen */}
           </div>
+
+           {/* Contenedor del slider */}
           <div className={styles.slider}>
+          <Swiper
+            className="swiper-container"
+            spaceBetween={10}
+            slidesPerView={3}
+            navigation
+            modules={[Navigation]}
+            breakpoints={{
+              320: { slidesPerView: 2 }, // 1 slide en móviles pequeños
+              480: { slidesPerView: 2 }, // 2 slides en móviles medianos
+              768: { slidesPerView: 3 }, // 3 slides en tablets y más grandes
+            }}
+            onSlideChange={() => console.log("Slide cambiado")}
+            onSwiper={(swiper) => console.log(swiper)}>
+             <SwiperSlide className="swiper-slide">
+              <img src={image} alt="Imagen 1" className={styles.sliderImage}/>
+             </SwiperSlide>
+             <SwiperSlide>
+              <img src={image} alt="Imagen 1" className={styles.sliderImage} />
+             </SwiperSlide>
+             <SwiperSlide>
+               <img src={image} alt="Imagen 2" className={styles.sliderImage} />
+             </SwiperSlide>
+             <SwiperSlide>
+               <img src={image} alt="Imagen 3" className={styles.sliderImage} />
+             </SwiperSlide>
+             <SwiperSlide>
+               <img src={image} alt="Imagen 4" className={styles.sliderImage} />
+             </SwiperSlide>
+          </Swiper>
           </div>
+
+
+
+
 
         </div>
 
@@ -65,22 +106,40 @@ const Home = () => {
           </div>
           {/* {barra de progreso} */}
           <div className={styles.progressBar}>
-
+            <progress className={styles.progress} value={70} max={100}></progress>
+            <span className={styles.progressText}>70% Vendido</span>
           </div>
-
-
         </div>
+
 
 
       </div>
 
+      {/* seccionn dos */}
+      <div className={styles.sectionTwo}>
+        <h3> Combos para participar 🥳</h3>
+        <div className={styles.combo}>
+          <div className={styles.oneCard}></div>
+          <div className={styles.twoCard}></div>
+        </div>
+
+      </div>
+
+      <div className={styles.chooseNumbers}>
+        <h3>Escoge tus número 👇</h3>
+        <div className={styles.searchNumbers}>
+          <input type="text" placeholder="Buscar número..." />
+          <button>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+        <div className={styles.contentNumbers}>
+          <p>Contenido de números</p>
+        </div>
 
 
-      <h1 className={styles.title}>¡Bienvenido a LuckyDrawHub!</h1>
-      <p className={styles.description}>
-        Este es el inicio de tu aplicación. Personalízalo como quieras.
-      </p>
-      <button className={styles.button}>Empezar</button>
+
+      </div>
 
 
     </div>

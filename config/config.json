@@ -1,0 +1,38 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "ramiro28",
+    "database": "luckydrawhub",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres",
+    "migrationStorage": "json",
+    "migrationStoragePath": "src/migrations/migrations.json",
+    "seederStorage": "json",
+    "seederStoragePath": "src/migrations/seeders.json"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "ramiro28",
+    "database": "luckydrawhub_test",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres",
+    "migrationStorage": "json",
+    "migrationStoragePath": "src/migrations/migrations.json",
+    "seederStorage": "json",
+    "seederStoragePath": "src/migrations/seeders.json"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "ramiro28",
+    "database": "luckydrawhub_prod",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres",
+    "migrationStorage": "json",
+    "migrationStoragePath": "src/migrations/migrations.json",
+    "seederStorage": "json",
+    "seederStoragePath": "src/migrations/seeders.json"
+  }
+}

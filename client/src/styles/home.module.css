@@ -8,13 +8,13 @@ body{
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: #CBD0D6;
+  background-color:  #ffffff;
+
 }
 
 /* contenedor principal */
 .container {
   text-align: center;
-  border: 2px solid red;
 }
 
 .container .info{
@@ -25,7 +25,7 @@ body{
   align-items: center;
   text-align: center;
   padding: 1rem;
-  background-color: #5c84ad;
+  background-color:#04272d;
 }
 
 /* estilos para el header */
@@ -36,7 +36,7 @@ body{
   justify-content: space-around;
   align-items: center;
   text-align: center;
-  background-color: #001233;
+  background-color: #001512;
   padding: 0px 20px;
 }
 
@@ -50,6 +50,9 @@ body{
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+  background-image: url('../assets/rifa.jpg');
+  background-size: cover; 
+  background-position: center;
   object-fit: cover; 
 }
 
@@ -62,7 +65,6 @@ body{
   height: auto;
   display: flex;
   flex-wrap: wrap; /* Permite que los elementos bajen cuando no haya espacio */
-  border: 5px solid green;
   padding: 60px;
 }
 
@@ -74,7 +76,6 @@ body{
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 2px solid red;
 }
 
 /* estilos para el contenido de la izquierda */
@@ -82,8 +83,9 @@ body{
   width: 80%;
   padding: 10px;
   font-size: 1.4rem;
-  background-color: #5c84ad;
-  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.5);
+  background-color: #02cdad;
+  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 /* stilos para las imagenes */
@@ -92,27 +94,74 @@ body{
   height: 320px;
   margin-top: 30px;
   border-radius: 10px;
-  border: 2px solid rgba(187, 157, 157, 0.3); 
+  background-image: url('../assets/image.jpg');
+  background-size: cover; 
+  background-position: center;
+  object-fit: cover; 
+  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.2);
+  border: 1px solid red;
 }
 
 /* slider de imagenes */
-.container .section .left .slider{
+.container .section .left .slider {
+  position: relative;
   width: 80%;
+  max-width: min(500px, 90vw); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100px;
   margin-top: 30px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  color: #001512;
+  border: 1px solid red;
 }
+
+:global(.swiper) {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid green;
+}
+
+:global(.swiper-button-next),
+:global(.swiper-button-prev) {
+  filter: invert(62%) sepia(78%) saturate(387%) hue-rotate(120deg) brightness(90%) contrast(95%);
+  transform: scale(0.7);
+}
+
+
+
+
+.sliderImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid yellow;
+}
+
+
+
+
+
+
+
+
 
 
 /* estilos para el contenido de la derecha */
 .container .section .right .text{
   width: 80%;
-  color: #001233;
+  color: #001512;
   padding: 10px;
   font-size: 1.4rem;
   margin-bottom: 5px;
-  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4), 
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2), 
   -2px -2px 4px rgba(255, 255, 255, 0.2);
 }
 
@@ -122,12 +171,13 @@ body{
   width: 80%;
   height: 100px;
   margin: 20px 0;
-  border-radius: 10px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 0 5px;
-  border: 1px solid black;
+  background-color: #8d9997;
+  cursor: pointer;
 }
 
 .container .section .right .cardOne .contentImage, 
@@ -139,30 +189,157 @@ body{
 .container .section .right .cardOne p, 
 .container .section .right .cardTwo p, 
 .container .section .right .cardThree p{
-  color: #333;
-  font-size: .8rem;
+  color: #ffffff;
+  font-size: .9rem;
   padding: 0 5px;
 }
 
 
-
-
-
-
-
-
-
-
-.title {
-  font-size: 2rem;
-  color: #333;
+.container .section .right .progressBar{
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
 }
 
-.button {
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
+.container .section .right .progress{
+  width: 80%;
+  height: 15px;
+  border-radius: 10px;
+  overflow: hidden;
+  appearance: none;
 }
+
+.container .section .right .progress::-webkit-progress-bar{
+  background-color: #8d9997;
+  border-radius: 10px;
+}
+
+.container .section .right .progress::-webkit-progress-value{
+  background-color: #02cdad; 
+  border-radius: 10px;
+}
+
+.container .section .right .progress::-moz-progress-bar {
+  background-color: #02cdad;
+  border-radius: 10px;
+}
+
+.progressText {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #001512;
+}
+
+.container .section .right .progress::-webkit-progress-value {
+  background: repeating-linear-gradient(
+    -45deg,
+    #02cdad,
+    #02cdad 10px,
+    #ccc 10px,
+    #ccc 20px
+  );
+}
+.container .section .right .progress::-moz-progress-bar {
+  background: repeating-linear-gradient(
+    -45deg,
+    #02cdad,
+    #02cdad 10px,
+    #ccc 10px,
+    #ccc 20px
+  );
+}
+
+
+/* estilos para la seccion dos */
+.container .sectionTwo{
+  margin-top: 30px;
+}
+
+.container .sectionTwo h3{
+  color: #5c84ad;
+}
+
+.container .sectionTwo .combo{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos bajen cuando no haya espacio */
+  border: 5px solid green;
+  padding: 60px;
+  gap: 20px;
+}
+
+.container .sectionTwo .combo .oneCard,
+.container .sectionTwo .combo .twoCard {
+  flex: 1 1 350px; /* Crece, se reduce y tiene un tamaño mínimo de 300px */
+  /* height: 100%; */
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 2px solid red;
+}
+
+
+/* estilos para seleccion de numeros */
+.container .chooseNumbers{
+  width: 100%;
+  height: auto;
+  border: 3px solid blue;
+}
+
+.container .chooseNumbers h3{
+  color: #5c84ad;
+  padding: 10px;
+}
+
+/* estilos barra de busqueda */
+.container .chooseNumbers .searchNumbers{
+  width: 100%;
+  border: 2px solid yellow;
+}
+
+.container .chooseNumbers .searchNumbers input{
+  width: 50%;
+  outline: none;
+  padding: 10px;
+  border: none;
+  background-color: #5c84ad;
+  color: #fff;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.container .chooseNumbers .searchNumbers input::placeholder{
+  color: #fff;
+}
+
+.container .chooseNumbers .searchNumbers button{
+  padding: 10px 12px;
+  cursor: pointer;
+  background-color: #001233;
+  border-radius: 0px 5px 5px 0px;
+  border: none;
+}
+
+/* estilos contenido para los numeros */
+.container .chooseNumbers .contentNumbers{
+  border: 2px solid #5c84ad;
+  height: 300px;
+  color: rgb(51, 58, 58);
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -196,8 +373,9 @@ body{
   }
 
   .container .section .left .slider{
-    width: 100%;
+    max-width: 200px;
   }
+
 
   /* contenido de la derecha */
   .container .section .right p{
@@ -210,4 +388,25 @@ body{
   .container .section .right .cardThree {
   width: 100%;
 }
+
+.container .sectionTwo .combo{
+  padding: 20px;
+}
+
+.container .chooseNumbers .searchNumbers input{
+  width: 80%;
+}
+
+.container .section .right .progress{
+  width: 100%;
+}
+
+}
+
+@media (max-width: 320px) {
+  .container .section .left .slider{
+    width: 90%;
+    max-width: 400px;
+    border: 1px solid red;
+  }
 }

@@ -1,8 +1,11 @@
 // import { useState } from 'react'
-import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
-import Login from "./components/Login";
+import Home from './components/Home';
+import Login from './components/Login';
+import Panel from './components/Panel';
+import ProtectedRoute from './components/ProtectedRoute';
+import RedirectIfAuthenticated from './routes/RedirectIfAuthenticated'
+
 
 
 function App() {
@@ -14,7 +17,10 @@ function App() {
         <Route path="/" element={<Home />} />
 
         {/* componente login */}
-        <Route path="/panelLogin" element={<Login />} />
+        <Route path="/panelLogin" element={<RedirectIfAuthenticated><Login /></RedirectIfAuthenticated>} />
+
+        {/* componente panel de administrador */}
+        <Route path="/panel"  element={ <ProtectedRoute><Panel /></ProtectedRoute>}/>
 
       </Routes>
     </Router>

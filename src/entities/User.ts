@@ -2,7 +2,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity("admin") //tabla en base de datos
-export class Admin {
+export class  User {
     @PrimaryGeneratedColumn()
     id: number;
 

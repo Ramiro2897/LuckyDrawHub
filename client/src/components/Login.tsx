@@ -1,16 +1,17 @@
 import styles from '../styles/login.module.css';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 
 const Login = () => {
     const [email, setEmail] = useState(""); //estados para almacenar los datos y guardarlos
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     // funcion que llama a el servicio login que se encarga de mandar los datos (axios)
     const handleLogin = async () => {
-      alert('entra aqui')
         try {
-            const data = await login(email, password);
+            const data = await login(email, password, navigate);
             console.log('datos del admin', email, password);
             console.log("Token recibido:", data.token);
         } catch (error) {

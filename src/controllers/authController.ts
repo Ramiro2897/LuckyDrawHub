@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
-import { Admin } from "../entities/User";
+import { User } from "../entities/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const adminRepository = AppDataSource.getRepository(Admin);
+const adminRepository = AppDataSource.getRepository(User);
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -32,8 +32,12 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         console.log("Inicio de sesión exitoso para el usuario:", admin.id);
 
         const token = jwt.sign({ id: admin.id }, "secret_key", { expiresIn: "1h" });
+        console.log(token);
 
-        return res.json({ token });
+        return res.json({ 
+            token, 
+            userId: admin.id 
+        });
     } catch (error) {
         console.error("Error en el servidor:", error);
         return res.status(500).json({ message: "Error interno del servidor" });

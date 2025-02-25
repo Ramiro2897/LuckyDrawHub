@@ -27,6 +27,11 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(clientPath, "index.html"));
 });
 
+app.get('/panel', (req, res) => {
+  console.log('Entra aquí');
+});
+
+
 // Conectar a la base de datos y levantar el servidor
 AppDataSource.initialize()
   .then(() => {
