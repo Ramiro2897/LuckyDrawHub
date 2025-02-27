@@ -6,22 +6,27 @@ import { login } from "../services/authService";
 const Login = () => {
     const [email, setEmail] = useState(""); //estados para almacenar los datos y guardarlos
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState<{ username?: string; password?: string; general?: string }>({});
+
     const navigate = useNavigate();
 
     // funcion que llama a el servicio login que se encarga de mandar los datos (axios)
     const handleLogin = async () => {
         try {
-            const data = await login(email, password, navigate);
-            console.log('datos del admin', email, password);
-            console.log("Token recibido:", data.token);
-        } catch (error) {
-            console.error("Error en el login");
-        }
+            await login(email, password, navigate);
+        } catch (error: any) {
+            if (error.response?.data.general) {
+              setErrors({ general: error.response.data.general }); // Mostrar el error en "general"
+            }
+          }  
     };
 
     return (
+    <div className={styles.contenAll}>   
       <div className={styles.container}>
         <h2 className={styles.title}>Iniciar Sesión</h2>
+        {/* en caso de error mostrar el mensaje */}
+        <div className={styles.error}>{errors.general ? errors.general : " "}</div>
 
         <input 
             type="text" 
@@ -41,6 +46,7 @@ const Login = () => {
 
         <button onClick={handleLogin} className={styles.button}>Ingresar</button>
       </div>
+    </div>
 
     );
 };

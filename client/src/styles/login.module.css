@@ -1,46 +1,80 @@
-.container {
+.contenAll{
   width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+  background-color: #445b5f;
+}
+
+.contenAll .container {
+  width: 100%;
+  height: 70vh;
   max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  text-align: center;
+  margin: auto;
+  padding: 70px 30px;
+  background: #04272d;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 .title {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #ccc;
+  font-size: 1.5rem;
+  color: #ffffff;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.contenAll .container .error{
+  width: 100%;
+  min-height: 25px;
+  margin-bottom: 10px;
+  color: rgb(196, 43, 43);
+  display: flex;
+  align-items: center;
+  padding: 2px 10px;
+  font-size: .8rem;
 }
 
 .input {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
+  padding: 12px 30px;
+  margin-bottom: 15px;
+  border: 1px solid #8d9997;
   border-radius: 5px;
   font-size: 16px;
-  transition: all 0.3s ease;
+  color: #057967;
+  background-color: #ffffff;
+  outline: none;
+  transition: all 0.3s ease-in-out;
 }
 
 .input:focus {
-  border-color: #007bff;
-  outline: none;
+  border-color: #02cdad;
+  box-shadow: 0px 0px 8px rgba(2, 205, 173, 0.5);
 }
 
 .button {
   width: 100%;
   padding: 12px;
-  background: #007bff;
-  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background: #02cdad;
   border: none;
   border-radius: 5px;
-  font-size: 18px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s;
 }
 
 .button:hover {
-  background: #0056b3;
+  background: #057967;
+}
+
+/* esto es de panel */
+.h1{
+  color: red;
 }

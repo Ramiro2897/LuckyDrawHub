@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
 }
 
 body{
@@ -9,7 +10,6 @@ body{
   height: 100%;
   overflow: auto;
   background-color:  #ffffff;
-
 }
 
 /* contenedor principal */
@@ -19,13 +19,16 @@ body{
 
 .container .info{
   width: 100%;
-  height: auto;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 1rem;
   background-color:#04272d;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
 }
 
 /* estilos para el header */
@@ -37,7 +40,7 @@ body{
   align-items: center;
   text-align: center;
   background-color: #001512;
-  padding: 0px 20px;
+  margin-top: 60px;
 }
 
 /* estilos para el logo */
@@ -66,6 +69,7 @@ body{
   display: flex;
   flex-wrap: wrap; /* Permite que los elementos bajen cuando no haya espacio */
   padding: 60px;
+  gap: 10px;
 }
 
 .container .section .left,
@@ -91,68 +95,55 @@ body{
 /* stilos para las imagenes */
 .container .section .left .image{
   width: 80%;
-  height: 320px;
+  height: 350px;
   margin-top: 30px;
-  border-radius: 10px;
+  border-radius: 5px;
   background-image: url('../assets/image.jpg');
   background-size: cover; 
   background-position: center;
   object-fit: cover; 
   box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.2);
-  border: 1px solid red;
+  transition: background-image 0.5s ease-in-out;
 }
 
-/* slider de imagenes */
-.container .section .left .slider {
+/* Estilos generales para los botones */
+.imageButtons {
   position: relative;
-  width: 80%;
-  max-width: min(500px, 90vw); 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  margin-top: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-  color: #001512;
-  border: 1px solid red;
-}
-
-:global(.swiper) {
+  top: 50%;
   width: 100%;
-  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateY(-50%);
+  padding: 0 10px;
+}
+
+/* Estilos generales para los botones */
+.buttonLeft,
+.buttonRight {
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid green;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+  user-select: none; /* Evita que se seleccione el texto */
+  -webkit-user-select: none; /* Para navegadores WebKit (Chrome, Safari) */
+  -moz-user-select: none; /* Para Firefox */
+  -ms-user-select: none; /* Para Edge y versiones antiguas de IE */
 }
 
-:global(.swiper-button-next),
-:global(.swiper-button-prev) {
-  filter: invert(62%) sepia(78%) saturate(387%) hue-rotate(120deg) brightness(90%) contrast(95%);
-  transform: scale(0.7);
+.buttonLeft:hover,
+.buttonRight:hover {
+  background-color: rgba(0, 0, 0, 0.5);
 }
-
-
-
-
-.sliderImage {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 5px;
-  border: 1px solid yellow;
-}
-
-
-
-
-
-
-
-
-
 
 /* estilos para el contenido de la derecha */
 .container .section .right .text{
@@ -169,15 +160,36 @@ body{
 .container .section .right .cardTwo, 
 .container .section .right .cardThree {
   width: 80%;
-  height: 100px;
+  height: auto;
   margin: 20px 0;
+  border: 2px solid rgba(160, 159, 159, 0.5);
   border-radius: 5px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
-  padding: 0 5px;
-  background-color: #8d9997;
+  padding: 10px 5px;
   cursor: pointer;
+  color: #001512;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
+  white-space: normal; 
+}
+
+.container .section .right .cardThree{
+  padding: 10px 5px !important;
+  border: 2px solid rgba(160, 159, 159, 0.5);
+}
+
+.container .section .right .cardThree p{
+  padding: 10px 5px !important;
+  max-width: 100% !important; 
+  height: auto;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  white-space: normal !important;
+  font-size: .9rem;
+  padding: 0 5px;
 }
 
 .container .section .right .cardOne .contentImage, 
@@ -189,11 +201,17 @@ body{
 .container .section .right .cardOne p, 
 .container .section .right .cardTwo p, 
 .container .section .right .cardThree p{
-  color: #ffffff;
+  width: 80%;
+  height: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: normal;
   font-size: .9rem;
   padding: 0 5px;
+  line-height: 1.5; 
+  text-align: justify; 
+  hyphens: auto;
 }
-
 
 .container .section .right .progressBar{
   width: 100%;
@@ -253,7 +271,6 @@ body{
   );
 }
 
-
 /* estilos para la seccion dos */
 .container .sectionTwo{
   margin-top: 30px;
@@ -263,34 +280,46 @@ body{
   color: #5c84ad;
 }
 
-.container .sectionTwo .combo{
+.container .sectionTwo .combo {
   width: 100%;
   height: auto;
   display: flex;
-  flex-wrap: wrap; /* Permite que los elementos bajen cuando no haya espacio */
-  border: 5px solid green;
+  flex-wrap: wrap;
   padding: 60px;
   gap: 20px;
+  justify-content: center; 
+  align-items: center;
 }
 
 .container .sectionTwo .combo .oneCard,
 .container .sectionTwo .combo .twoCard {
-  flex: 1 1 350px; /* Crece, se reduce y tiene un tamaño mínimo de 300px */
-  /* height: 100%; */
-  height: 30px;
+  flex: 1; 
+  max-width: 450px; 
+  height: auto;
   display: flex;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 2px solid red;
+  border-radius: 5px;
 }
+
+.container .sectionTwo .combo .oneCard img,
+.container .sectionTwo .combo .twoCard img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 5px;
+  object-fit: cover; /* Evita que las imágenes se deformen y recorta si es necesario */
+}
+
+
 
 
 /* estilos para seleccion de numeros */
 .container .chooseNumbers{
   width: 100%;
   height: auto;
-  border: 3px solid blue;
 }
 
 .container .chooseNumbers h3{
@@ -301,40 +330,296 @@ body{
 /* estilos barra de busqueda */
 .container .chooseNumbers .searchNumbers{
   width: 100%;
-  border: 2px solid yellow;
 }
 
 .container .chooseNumbers .searchNumbers input{
   width: 50%;
   outline: none;
   padding: 10px;
-  border: none;
-  background-color: #5c84ad;
-  color: #fff;
+  border: 1px solid #8d9997;
+  background-color: transparent;
+  color: #001512;
   border-radius: 5px 0px 0px 5px;
 }
 
 .container .chooseNumbers .searchNumbers input::placeholder{
-  color: #fff;
+  color: #001512;
+}
+
+.container .chooseNumbers .searchNumbers input:focus {
+  border-color: #02cdad;
+  box-shadow: 0 0 5px #04272d;
 }
 
 .container .chooseNumbers .searchNumbers button{
-  padding: 10px 12px;
+  padding: 12px 12px;
   cursor: pointer;
   background-color: #001233;
   border-radius: 0px 5px 5px 0px;
   border: none;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.container .chooseNumbers .searchNumbers button:hover {
+  background-color: #002855;
+  opacity: 0.9;
 }
 
 /* estilos contenido para los numeros */
 .container .chooseNumbers .contentNumbers{
-  border: 2px solid #5c84ad;
-  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  height: auto;
   color: rgb(51, 58, 58);
 }
 
+.container .chooseNumbers .contentNumbers .numberList{
+  width: 40%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.rifaNumber {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #02cdad;
+  color: #001512;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 40px;
+  cursor: pointer;
+}
+
+.container .chooseNumbers .buttonsNextPrev{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #001512;
+}
+
+.container .chooseNumbers .buttonsNextPrev .buttonsContent{
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 10px;
+}
+
+.container .chooseNumbers .buttonsNextPrev .buttonsContent .buttonBack,
+.container .chooseNumbers .buttonsNextPrev .buttonsContent .buttonNext{
+  padding: 8px 20px;
+  color: #ffffff;
+  background-color: #001512;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none; /* Evita que se seleccione el texto */
+  -webkit-user-select: none; /* Para navegadores WebKit (Chrome, Safari) */
+  -moz-user-select: none; /* Para Firefox */
+  -ms-user-select: none; /* Para Edge y versiones antiguas de IE */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.container .chooseNumbers .buttonsNextPrev .buttonsContent .buttonBack:hover,
+.container .chooseNumbers .buttonsNextPrev .buttonsContent .buttonNext:hover {
+  background-color: #00332c;
+}
+
+ 
+.container .chooseNumbers .contentNumbers .btnPay{
+  width: 100%;
+  height: auto;
+  margin: 10px 0;
+}
+
+.container .chooseNumbers .contentNumbers .btnPay button{
+  padding: 10px 15px;
+  border: none;
+  color: #ffffff;
+  background-color: #5c84ad;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.container .chooseNumbers .contentNumbers .btnPay button:hover {
+  background-color: #4682a9;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.container .chooseNumbers .checkNumbers { 
+  margin: 20px 0 40px; 
+}
 
 
+.container .chooseNumbers .checkNumbers button {
+  padding: 10px 15px;
+  color: #ffffff;
+  background: linear-gradient(45deg, #5c84ad, #02cdad);
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #02cdad;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover potente */
+.container .chooseNumbers .checkNumbers button:hover {
+  background: linear-gradient(45deg, #02cdad, #5c84ad);
+  box-shadow: 0 6px 12px rgba(2, 205, 173, 0.5);
+  transform: scale(1.05);
+  border-color: #ffffff;
+}
+
+/* Efecto de brillo en hover */
+.container .chooseNumbers .checkNumbers button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  width: 100%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(25deg);
+  transition: left 0.5s ease-in-out;
+}
+
+.container .chooseNumbers .checkNumbers button:hover::before {
+  left: 120%;
+}
+
+.container .footer{
+  width: 100%;
+  height: auto;
+  background-color: #04272d;
+  color: #ffffff;
+}
+
+.container .contentFooter {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-around;
+  align-items: center; 
+  gap: 10px; 
+  padding: 20px; 
+  color: white;
+  text-align: center;
+}
+
+/* Sección individual del footer */
+.container .contentFooter .footerSection {
+  flex: 1;
+  min-width: 250px;
+  max-width: 400px; 
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Nombre principal */
+.container .contentFooter .footerSection .footerName {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+/* Enlace de términos */
+.container .contentFooter .footerSection .footerLink {
+  font-size: .9rem;
+  color: #4682a9;
+  margin: 5px 0;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.container .contentFooter .footerSection .footerLink:hover {
+  text-decoration: underline;
+  color: #5c84ad;
+}
+
+/* Texto del desarrollador */
+.container .contentFooter .footerSection .developer {
+  font-size: .9rem;
+  color: #ffffff;
+  margin: 10px 0;
+  font-style: italic;
+}
+
+.name {
+  font-weight: bold;
+  color: #00b4d8;
+  font-size: 1em;
+}
+
+
+/* Estilos para los títulos "Contáctanos" y "Medios de pago" */
+.container .contentFooter .footerSection .footerTitle {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #00b4d8;
+}
+
+/* Contacto */
+.container .contentFooter .footerSection .contactNumber {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.container .contentFooter .footerSection .contactEmail {
+  font-size: 0.9rem;
+  color: #e6e6e6;
+  word-break: break-word; /* Para evitar que el email se salga del contenedor */
+}
+
+/* Método de pago */
+.container .contentFooter .footerSection .paymentMethod {
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #02cdad;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* estilos para imagenes del footer */
+.container .contentFooter .footerSection .paymentMethod .mercado{
+  width: 180px;
+}
+
+.container .contentFooter .footerSection .paymentMethod .methodPay{
+  width: 200px;
+}
+
+.container .footer .copyright{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  padding: 30px 0;
+  font-size: .9rem;
+}
 
 
 
@@ -373,7 +658,7 @@ body{
   }
 
   .container .section .left .slider{
-    max-width: 200px;
+    width: 100%; 
   }
 
 
@@ -391,7 +676,10 @@ body{
 
 .container .sectionTwo .combo{
   padding: 20px;
+  flex-direction: column;
 }
+
+
 
 .container .chooseNumbers .searchNumbers input{
   width: 80%;
@@ -401,12 +689,35 @@ body{
   width: 100%;
 }
 
+.container .chooseNumbers .contentNumbers .numberList{
+  width: 90%;
 }
 
-@media (max-width: 320px) {
-  .container .section .left .slider{
-    width: 90%;
-    max-width: 400px;
-    border: 1px solid red;
-  }
+.container .section .right .cardOne, 
+.container .section .right .cardTwo, 
+.container .section .right .cardThree {
+  height: 150px;
 }
+
+.container .chooseNumbers .buttonsNextPrev .buttonsContent{
+  width: 50%;
+}
+
+.container .contentFooter {
+  flex-direction: column; 
+  align-items: center;
+  text-align: center;
+}
+
+.container .info{
+  height: 100px;
+}
+
+.container .header{
+  margin-top: 100px;
+}
+
+
+}
+
+

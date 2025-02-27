@@ -1,12 +1,86 @@
+import { useState } from "react";
 import styles from '../styles/home.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy, faSearch  } from '@fortawesome/free-solid-svg-icons';
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper-bundle.css";
-import { Navigation } from "swiper/modules";
-import image from '../assets/image.jpg';
+import { faTrophy, faSearch, faChevronLeft, faChevronRight, faLock, faArrowLeft, faArrowRight  } from '@fortawesome/free-solid-svg-icons';
+import img1 from '../assets/image.jpg';
+import img2 from '../assets/rifa.jpg';
+import img3 from '../assets/image.jpg';
+import img4 from '../assets/rifa.jpg';
+import img5 from '../assets/image.jpg';
+import imgMercadoPago from '../assets/mercadopago.png';
+import imgMercado from '../assets/mercado-pago.png';
+import img from '../assets/image-boleto.jpg';
+
+
+
+
+  const images = [img1, img2, img3, img4, img5];
 
 const Home = () => {
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [fade, setFade] = useState(false);
+
+  const prevSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+
+    setFade(true); 
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    }, 200); 
+
+    setTimeout(() => {
+      setFade(false);
+      setIsTransitioning(false);
+    }, 500); 
+  };
+
+  const nextSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+
+    setFade(true);
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    }, 200);
+
+    setTimeout(() => {
+      setFade(false);
+      setIsTransitioning(false);
+    }, 500);
+  };
+
+// ---------------------------
+const totalNumbers = 100; // Número total de la rifa
+const numbersPerPage = 30; // Cantidad de números por página
+const [currentPage, setCurrentPage] = useState(0);
+
+// Generar los números aleatorios UNA SOLA VEZ (para que no cambien al cambiar de página)
+const allNumbers = Array.from({ length: totalNumbers }, () => Math.floor(Math.random() * 900) + 100);
+
+// Obtener los números para la página actual
+const startIndex = currentPage * numbersPerPage;
+const visibleNumbers = allNumbers.slice(startIndex, startIndex + numbersPerPage);
+
+// Funciones para cambiar de página
+const nextPage = () => {
+  if (startIndex + numbersPerPage < totalNumbers) {
+    setCurrentPage(currentPage + 1);
+  }
+};
+
+const prevPage = () => {
+  if (currentPage > 0) {
+    setCurrentPage(currentPage - 1);
+  }
+};
+  
+
+
+
+
   return (
 
     // contenedor principa
@@ -34,47 +108,23 @@ const Home = () => {
             Trocha Pura Totalmente Aperado 🤩!
           </p>
 
-          {/* contenido de images con slider */}
-          <div className={styles.image}>
-             {/* Aquí va tu contenido de imagen */}
+          {/* Contenido de images con slider */}
+          <div className={`${styles.image} ${fade ? styles.fade : ""}`} style={{ backgroundImage: `url(${images[currentIndex]})` }}>
+            <div className={styles.imageButtons}>
+              <div
+                className={styles.buttonLeft}
+                onClick={currentIndex === 0 ? undefined : prevSlide}>
+                <FontAwesomeIcon icon={currentIndex === 0 ? faLock : faChevronLeft} size="1x" />
+              </div>
+
+              {/* Botón Derecho */}
+              <div
+                className={styles.buttonRight}
+                onClick={currentIndex === images.length - 1 ? undefined : nextSlide}>
+                <FontAwesomeIcon icon={currentIndex === images.length - 1 ? faLock : faChevronRight} size="1x" />
+              </div>
+            </div>
           </div>
-
-           {/* Contenedor del slider */}
-          <div className={styles.slider}>
-          <Swiper
-            className="swiper-container"
-            spaceBetween={10}
-            slidesPerView={3}
-            navigation
-            modules={[Navigation]}
-            breakpoints={{
-              320: { slidesPerView: 2 }, // 1 slide en móviles pequeños
-              480: { slidesPerView: 2 }, // 2 slides en móviles medianos
-              768: { slidesPerView: 3 }, // 3 slides en tablets y más grandes
-            }}
-            onSlideChange={() => console.log("Slide cambiado")}
-            onSwiper={(swiper) => console.log(swiper)}>
-             <SwiperSlide className="swiper-slide">
-              <img src={image} alt="Imagen 1" className={styles.sliderImage}/>
-             </SwiperSlide>
-             <SwiperSlide>
-              <img src={image} alt="Imagen 1" className={styles.sliderImage} />
-             </SwiperSlide>
-             <SwiperSlide>
-               <img src={image} alt="Imagen 2" className={styles.sliderImage} />
-             </SwiperSlide>
-             <SwiperSlide>
-               <img src={image} alt="Imagen 3" className={styles.sliderImage} />
-             </SwiperSlide>
-             <SwiperSlide>
-               <img src={image} alt="Imagen 4" className={styles.sliderImage} />
-             </SwiperSlide>
-          </Swiper>
-          </div>
-
-
-
-
 
         </div>
 
@@ -93,8 +143,7 @@ const Home = () => {
             <span className={styles.contentImage}>
               <FontAwesomeIcon icon={faTrophy} size="3x" color="gold" />
             </span>
-            <p>¡Premio de 🤑 $2.000.000🤑 con las tres primeras
-               cifras de la de Medellín! 💰💥🔢
+            <p>¡Premio de 🤑 $2.000.000🤑 con las tres primeras cifras de la de Medellín! 💰💥🔢
             </p>
           </div>
           <div className={styles.cardThree}>
@@ -111,16 +160,18 @@ const Home = () => {
           </div>
         </div>
 
-
-
       </div>
 
       {/* seccionn dos */}
       <div className={styles.sectionTwo}>
         <h3> Combos para participar 🥳</h3>
         <div className={styles.combo}>
-          <div className={styles.oneCard}></div>
-          <div className={styles.twoCard}></div>
+          <div className={styles.oneCard}>
+            <img src={img} alt="imagen de boleto" />
+          </div>
+          <div className={styles.twoCard}>
+            <img src={img} alt="imagen de boleto" />
+          </div>
         </div>
 
       </div>
@@ -128,18 +179,79 @@ const Home = () => {
       <div className={styles.chooseNumbers}>
         <h3>Escoge tus número 👇</h3>
         <div className={styles.searchNumbers}>
-          <input type="text" placeholder="Buscar número..." />
+          <input type="text" placeholder="Buscar números..." />
           <button>
             <FontAwesomeIcon icon={faSearch} />
           </button>
         </div>
+        {/* lista de numeros */}
         <div className={styles.contentNumbers}>
-          <p>Contenido de números</p>
+          <div className={styles.numberList}>
+            {visibleNumbers.map((num, i) => (
+              <span key={i} className={styles.rifaNumber}>
+                {num}
+              </span>
+            ))}
+          </div>
+
+          {/* Botones de navegación */}
+          <div className={styles.buttonsNextPrev}>
+            <div className={styles.buttonsContent}>
+              <FontAwesomeIcon 
+                icon={faArrowLeft} 
+                className={styles.buttonBack} 
+                onClick={prevPage} 
+                style={{ opacity: currentPage === 0 ? 0.5 : 1, cursor: currentPage === 0 ? "default" : "pointer" }}
+              />
+              <FontAwesomeIcon 
+                icon={faArrowRight} 
+                className={styles.buttonNext} 
+                onClick={nextPage} 
+                style={{ opacity: startIndex + numbersPerPage >= totalNumbers ? 0.5 : 1, cursor: startIndex + numbersPerPage >= totalNumbers ? "default" : "pointer" }}
+              />
+            </div>
+          </div>
+
+          <div className={styles.btnPay}>
+            <button>Ir a pagar</button>
+          </div>
         </div>
 
-
-
+        <div className={styles.checkNumbers}>
+          <button>Consultar mis números</button>
+        </div>
       </div>
+
+      <footer className={styles.footer}>
+      <div className={styles.contentFooter}>
+        <div className={styles.footerSection}>
+          <p className={styles.footerName}>Rifas la pasinga</p>
+          <p><a href="#" className={styles.footerLink}>Términos y Condiciones</a></p>
+          <p className={styles.developer}>Desarrollado por: <span className={styles.name}>Ramiro González</span> </p>
+        </div>
+
+        <div className={styles.footerSection}>
+          <h3 className={styles.footerTitle}>Contáctanos</h3>
+          <span className={styles.contactNumber}>(+57) 3003307232</span>
+          <p className={styles.contactEmail}>castrogarcialuisjose@gmail.com</p>
+        </div>
+
+        <div className={styles.footerSection}>
+          <h3 className={styles.footerTitle}>Medios de pago</h3>
+          <div className={styles.paymentMethod}>
+            <img src={imgMercado} className={styles.mercado} alt="Mercado Pago" />  
+            <img src={imgMercadoPago} className={styles.methodPay} alt="Mercado Pago" />
+          </div>
+        </div>
+      </div>
+
+
+        <div className={styles.copyright}>
+          © {new Date().getFullYear()}. Todos los derechos reservados.
+        </div>
+
+      </footer>
+
 
 
     </div>

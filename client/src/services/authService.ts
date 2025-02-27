@@ -10,14 +10,11 @@ export const login = async (email: string, password: string, navigate: (path: st
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("id", response.data.userId.toString());
 
-        console.log("el id", response.data.userId);
-        console.log(response.data, "aquiiii llega"); // Respuesta si todo sale bien
-
         // Redirigir después del login
         navigate("/panel");
 
         return response.data;
-    } catch (error) {
-        throw new Error("Error en el login");
+    } catch (error: any) {
+        throw error; 
     }
 };

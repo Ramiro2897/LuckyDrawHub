@@ -35,8 +35,8 @@ app.get('/panel', (req, res) => {
 // Conectar a la base de datos y levantar el servidor
 AppDataSource.initialize()
   .then(() => {
-    app.listen(PORT, () => {
-      console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+    app.listen(3000, "0.0.0.0", () => {
+      console.log("✅ Servidor corriendo en http://localhost:3000");
     });
   })
   .catch((error: any) => {

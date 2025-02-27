@@ -13,20 +13,20 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
         if (!email || !password) {
             console.log("Faltan datos en la petición.");
-            return res.status(400).json({ message: "Email y contraseña son obligatorios." });
+            return res.status(400).json({ general: "Datos incompletos" });
         }
 
         const admin = await adminRepository.findOne({ where: { email } });
 
         if (!admin) {
             console.log("Admin no encontrado en la base de datos.");
-            return res.status(401).json({ message: "Credenciales incorrectas" });
+            return res.status(401).json({ general: "Credenciales incorrectas" });
         }
 
         const isPasswordValid = await bcrypt.compare(password, admin.password);
         if (!isPasswordValid) {
             console.log("La contraseña no coincide.");
-            return res.status(401).json({ message: "Credenciales incorrectas" });
+            return res.status(401).json({ general: "Credenciales incorrectas" });
         }
 
         console.log("Inicio de sesión exitoso para el usuario:", admin.id);
@@ -40,6 +40,6 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         });
     } catch (error) {
         console.error("Error en el servidor:", error);
-        return res.status(500).json({ message: "Error interno del servidor" });
+        return res.status(500).json({ general: "Error interno del servidor" });
     }
 };
