@@ -9,7 +9,8 @@ body{
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color:  #ffffff;
+  background-color:  #ffffff !important;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* contenedor principal */
@@ -621,6 +622,28 @@ body{
   font-size: .9rem;
 }
 
+
+/* errores que se muestran en la pagina home */
+.errors {
+  position: fixed; /* Hace que no afecte el flujo del contenido */
+  bottom: 20px; /* Lo posiciona en la parte inferior */
+  right: 20px; /* Lo posiciona en la esquina derecha */
+  background: rgba(255, 0, 0, 0.9); /* Fondo rojo con transparencia */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0; /* Empieza oculto */
+  transform: translateY(20px); /* Baja un poco para animación */
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Cuando el error está visible */
+.errors.show {
+  opacity: 1;
+  transform: translateY(0); /* Sube suavemente */
+}
 
 
 

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import styles from '../styles/home.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, faSearch, faChevronLeft, faChevronRight, faLock, faArrowLeft, faArrowRight  } from '@fortawesome/free-solid-svg-icons';
+import { fetchHeaderTextPublic, fetchDateTextPublic, fetchPrizeTextPublic, fetchCardOneTextPublic, fetchCardTwoTextPublic, fetchCardThreeTextPublic } from "../services/fetchTextPublic";
+
 import img1 from '../assets/image.jpg';
 import img2 from '../assets/rifa.jpg';
 import img3 from '../assets/image.jpg';
@@ -14,13 +16,20 @@ import img from '../assets/image-boleto.jpg';
 
 
 
-  const images = [img1, img2, img3, img4, img5];
+const images = [img1, img2, img3, img4, img5];
 
 const Home = () => {
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [fade, setFade] = useState(false);
+  const [text, setText] = useState("");
+  const [textDate, setTextDate] = useState("");
+  const [contentText, setContentText] = useState("");
+  const [textCardOne, setTextCardOne] = useState("");
+  const [textCardTwo, setTextCardTwo] = useState("");
+  const [textCardThree, setTextCardThree] = useState("");
+  const [errors, setErrors] = useState<{ general?: string }>({});
 
   const prevSlide = () => {
     if (isTransitioning) return;
@@ -76,8 +85,35 @@ const prevPage = () => {
     setCurrentPage(currentPage - 1);
   }
 };
-  
+// ------------------------------------------------------------
+  // Cargar todos los textos al iniciar
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [ headerText, dateText, prizeText, cardOneText, cardTwoText, cardThreeText ] = await Promise.all([
+          fetchHeaderTextPublic(),
+          fetchDateTextPublic(),
+          fetchPrizeTextPublic(),
+          fetchCardOneTextPublic(),
+          fetchCardTwoTextPublic(),
+          fetchCardThreeTextPublic(),
+        ]);
 
+        setText(headerText);
+        setTextDate(dateText);
+        setContentText(prizeText);
+        setTextCardOne(cardOneText);
+        setTextCardTwo(cardTwoText);
+        setTextCardThree(cardThreeText);
+      } catch (error: any) {
+        const errorData = error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
+        setErrors(errorData);
+        setTimeout(() => setErrors({}), 5000);
+      }
+    };
+
+    fetchData();
+  }, []);
 
 
 
@@ -87,15 +123,12 @@ const prevPage = () => {
     <div className={styles.container}>
 
       <div className={styles.info}>
-        <p>¡Última oportunidad! 💥 antes 2x $110.000 HOY 2x $100.000 😱 
-          ¡Corre antes de que se acaben! 🏃💨</p>
+        <p>{text}</p>
       </div>
       <div className={styles.header}>
         <div className={styles.logo}>LOGO</div>
         <div className={styles.textInfo}>
-          <p>📅️ Juega este 28 de febrero con las 3 
-          últimas cifras de la de Medellín.
-          </p>
+          <p>{textDate}</p>
         </div>
       </div>
 
@@ -104,9 +137,7 @@ const prevPage = () => {
 
         {/* {contenido de la izquierda} */}
         <div className={styles.left}>
-          <p> ¡Gran sorteo de un espectacular Caballo capon 🐎 
-            Trocha Pura Totalmente Aperado 🤩!
-          </p>
+          <p>{contentText}</p>
 
           {/* Contenido de images con slider */}
           <div className={`${styles.image} ${fade ? styles.fade : ""}`} style={{ backgroundImage: `url(${images[currentIndex]})` }}>
@@ -135,23 +166,19 @@ const prevPage = () => {
             <span className={styles.contentImage}> 
               <FontAwesomeIcon icon={faTrophy} size="3x" color="gold" />
             </span>
-            <p>¡Caballo Capón de trocha pura, completamente aperado! 🐴🏇🏼💥
-              Con las tres últimas cifras de la de Medellín
-            </p>
+            <p>{textCardOne}</p>
           </div>
           <div className={styles.cardTwo}>
             <span className={styles.contentImage}>
               <FontAwesomeIcon icon={faTrophy} size="3x" color="gold" />
             </span>
-            <p>¡Premio de 🤑 $2.000.000🤑 con las tres primeras cifras de la de Medellín! 💰💥🔢
-            </p>
+            <p>{textCardTwo}</p>
           </div>
           <div className={styles.cardThree}>
             <span className={styles.contentImage}>
               <FontAwesomeIcon icon={faTrophy} size="3x" color="gold" />
             </span>
-            <p> ¡Premio de 🤑 $1.000.000🤑 para quien más números compre! 🤑💵🎉
-            </p>
+            <p>{textCardThree}</p>
           </div>
           {/* {barra de progreso} */}
           <div className={styles.progressBar}>
@@ -251,6 +278,12 @@ const prevPage = () => {
         </div>
 
       </footer>
+
+
+      {/* Mensajes de errores */}
+      <p className={`${styles.errors} ${errors.general ? styles.show : ""}`}>
+        {errors.general}
+      </p>
 
 
 

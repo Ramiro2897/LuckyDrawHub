@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { User } from "./entities/User";
+import { generalTexts } from "./entities/generalTexts";
 import dotenv from "dotenv";
 
 dotenv.config(); // Cargar variables de entorno antes de usarlas
@@ -13,7 +14,7 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     synchronize: false, // ❌ Desactivar, usaremos migraciones
-    entities: [User],
+    entities: [User, generalTexts],
     subscribers: [],
-    migrations: ["src/migrations/*.ts"],  // ✅ Activar migraciones
+    migrations: [__dirname + "/migrations/*.ts"], // ✅ Activar migraciones
 });

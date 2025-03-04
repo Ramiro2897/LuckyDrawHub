@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { AppDataSource } from "../data-source"; 
 import authRoutes from "../routes/authRoutes"; 
 
+
 // Configuración del servidor
 dotenv.config();
 const app = express();

@@ -31,7 +31,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
         console.log("Inicio de sesión exitoso para el usuario:", admin.id);
 
-        const token = jwt.sign({ id: admin.id }, "secret_key", { expiresIn: "1h" });
+        const token = jwt.sign({ id: admin.id }, "luckysecret");
         console.log(token);
 
         return res.json({ 
