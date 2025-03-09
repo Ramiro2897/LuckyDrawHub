@@ -1,12 +1,14 @@
 import styles from '../styles/panel.module.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { textHeader } from "../services/updateTextHeader";
 import { dateText } from "../services/updateTextDate";
 import { updateText } from "../services/updateTextService";
 import {updateTextCardOne} from "../services/updateTextCardOne";
 import {updateTextCardTwo} from "../services/updateTextCardTwo";
 import {updateTextCardThree} from "../services/updateTextCardThree";
-import { fetchHeaderTextAdmin, fetchDateTextAdmin, fetchPrizeTextAdmin, fetchCardOneText, fetchCardTwoText, fetchCardThreeText } from '../services/fetchAdminTexts';
+import { fetchHeaderTextAdmin, fetchDateTextAdmin, fetchPrizeTextAdmin, fetchCardOneText, fetchCardTwoText, fetchCardThreeText, fetchImages} from '../services/fetchAdminTexts';
 
 const Panel = () => {
   const [title] = useState("contenido header");
@@ -23,6 +25,90 @@ const Panel = () => {
   const [textCardThree, setTextCardThree] = useState<string>("Aquí la información o la que quiere editar");
   const [errors, setErrors] = useState<{ general?: string }>({});
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageList, setImageList] = useState<string[]>([]);
+  const navigate = useNavigate();
+
+
+  
+  const API_URL = import.meta.env.VITE_API_URL;
+  // token del usuario para uso global
+  const token = localStorage.getItem("token");
+
+  // seleccionar imagenes
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+    setFileName(selectedFile.name);
+  };
+
+  const handleAddImage = async () => {
+    if (!file) {
+      setErrors({ general: "Por favor, selecciona una imagen" });
+      setSuccessMessage(""); 
+    
+      setTimeout(() => setErrors({}), 5000);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file); // "image" es el campo que leerá el backend
+
+    try {
+       const response =  await axios.post<{ url: string }>(`${API_URL}/api/auth/upload`, formData, {
+            headers: { 
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        const newImageUrl = response.data.url;
+console.log('🔄 Se agregó o actualizó una imagen:', newImageUrl);
+
+setImageList((prevImages) => {
+  const newImageBase = newImageUrl.replace(/\.[^.]+$/, ""); // Remueve la extensión
+
+  // Verifica si ya existe una imagen con el mismo nombre base
+  const exists = prevImages.some((image) => {
+    const existingBase = image.replace(/\.[^.]+$/, ""); 
+    return existingBase === newImageBase;
+  });
+
+  if (exists) {
+    // 🔄 Si existe, reemplaza la imagen con la nueva URL
+    return prevImages.map((image) => {
+      const existingBase = image.replace(/\.[^.]+$/, "");
+      return existingBase === newImageBase ? newImageUrl : image;
+    });
+  } else {
+    // ➕ Si no existe, la agrega a la lista
+    return [...prevImages, newImageUrl];
+  }
+});
+
+        
+        setSuccessMessage("Imagen subida con éxito");
+        setFile(null); // Limpiar estado del archivo
+        setFileName(""); // Limpiar el nombre del archivo
+    
+        // Limpiar el input de tipo file
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+
+        setTimeout(() =>  setSuccessMessage(""), 5000); 
+    } catch (error: any) {
+      console.error(error, 'el error completo')
+      const errorData = error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
+      setSuccessMessage(""); // Asegura que el mensaje de éxito desaparezca
+      setErrors(errorData); 
+      setTimeout(() => setErrors({}), 5000); 
+    }
+  };
 
 
   // actualiza cada vez que se escriba
@@ -46,9 +132,6 @@ const Panel = () => {
   };
   
 
-  // token del usuario para uso global
-  const token = localStorage.getItem("token");
-
   // funcion al dar clic para guardar el texto
   const handleSaveText = async (updateFunction: Function, title: string, text: string, setTextFunction: Function) => {
     const response: any = await updateFunction(title, text);
@@ -63,7 +146,7 @@ const Panel = () => {
     if (response?.data) {
       setTextFunction(response.data.content);
       setErrors({}); 
-      setSuccessMessage("successful");
+      setSuccessMessage("Actulización exitosa");
       setTimeout(() => setSuccessMessage(null), 5000);
     }
   };
@@ -84,14 +167,17 @@ const Panel = () => {
 
     const fetchData = async () => {
       try {
-        const [headerText, dateText, prizeText, cardOneText, cardTwoText, cardThreeText] = await Promise.all([
+        const [headerText, dateText, prizeText, cardOneText, cardTwoText, cardThreeText, images] = await Promise.all([
           fetchHeaderTextAdmin(token),
           fetchDateTextAdmin(token),
           fetchPrizeTextAdmin(token),
           fetchCardOneText(token),
           fetchCardTwoText(token),
           fetchCardThreeText(token),
+          fetchImages(token),
         ]);
+
+        // console.log("🖼️ Imágenes recibidas en el frontend:", images);
 
         setText(headerText);
         setTextDate(dateText);
@@ -99,6 +185,7 @@ const Panel = () => {
         setTextCardOne(cardOneText);
         setTextCardTwo(cardTwoText);
         setTextCardThree(cardThreeText);
+        setImageList(images);
       } catch (error: any) {
         const errorData = error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
         setErrors(errorData);
@@ -108,25 +195,41 @@ const Panel = () => {
 
     fetchData();
   }, []);
-  
+
+  // cerrar sesion
+  const handleLogout = async () => {
+    try {
+        await axios.post(`${API_URL}/api/auth/logout`, {}, { 
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        localStorage.removeItem("token");
+        navigate("/panelLogin");
+    } catch (error: any) {
+        setErrors(error.response?.data?.errors || { general: "Ocurrió un error inesperado." });
+        setTimeout(() => setErrors({}), 5000);
+    }
+};
+
+
+
   return (
       <div className={styles.contentAll}>
         {/* contenido del header */}
           <div className={styles.textPanel}>
             <h1>Panel de administrador</h1>
-            <button>Salir</button>
+            <button onClick={handleLogout}>Salir</button>
           </div>
           
           {/* mensajes de errores */}
-          <p className={`${styles.error} ${!errors.general ? "hidden" : ""}`}>{errors.general}</p>
-          {/* mensaje de guardado con exito */}
-          <p className={`${styles.successMessage} ${successMessage ? styles.show : ""}`}>{successMessage}</p>
+          {errors.general && <p className={styles.error}>{errors.general}</p>}
 
+          {/* mensaje de guardado con exito */}
+          {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
 
           {/* Contenido de información que se agrega a la vista principal */}
           <div className={styles.raffleInfo}>
             <div className={styles.raffleInfoHeader}>
-              <h3 className={styles.raffleInfoTitle}>Información de rifa</h3>
+              <h5 className={styles.raffleInfoTitle}>Agregar textos generales</h5>
             </div>
             
             {/* ------------------ ---------------------------------------------------------*/}
@@ -207,10 +310,41 @@ const Panel = () => {
                 </div>
               </div> 
             </div>
-
-
-
           </div>
+
+          <div className={styles.contentImages}>
+            <h3>Agregar imagenes</h3>
+          
+            <div 
+              className={styles.contentInputImages} 
+              onClick={() => document.getElementById("fileInput")?.click()}
+              data-file-name={fileName} // Se usa en CSS
+            >
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                id="fileInput"
+                accept="image/*" 
+                style={{ display: "none" }} 
+                onChange={handleImageUpload} 
+              />
+            </div>
+            <button className={styles.addButton} onClick={handleAddImage}> Agregar </button>
+          </div>
+
+          {/* mueestra las imagenes en el panel */}
+          <div className={styles.contentImagesPanel}>
+            <div className={styles.contentAllImages}>
+            {imageList.map((image, index) => (
+              <img
+                key={index}
+                src={`${import.meta.env.VITE_API_URL}${image}`}
+                alt={`Premio ${index + 1}`} 
+              />
+            ))}
+            </div>
+          </div>
+
       </div>
   );
 };

@@ -24,7 +24,7 @@ const Login = () => {
     return (
     <div className={styles.contenAll}>   
       <div className={styles.container}>
-        <h2 className={styles.title}>Iniciar Sesión</h2>
+        <h2 className={styles.title}>Ingresar</h2>
         {/* en caso de error mostrar el mensaje */}
         <div className={styles.error}>{errors.general ? errors.general : " "}</div>
 

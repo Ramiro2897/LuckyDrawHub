@@ -1,4 +1,3 @@
-// modelos de la base de datos
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity("admin") //tabla en base de datos

@@ -72,4 +72,19 @@ export const fetchCardThreeText = async (token?: string): Promise<string> => {
   }
 };
 
+// funcion para traer las imagenes que se muestran en el panel
+interface ImageResponse {
+  url: string;
+}
+export const fetchImages = async (token?: string): Promise<string[]> => {
+  try {
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const response = await axios.get<ImageResponse[]>(`${API_URL}/api/auth/images`, { headers });
+    // console.log("📸 Respuesta del servidor (imagenes):", response.data);
+    return response.data.map((img) => img.url);
+  } catch (error: any) {
+    throw error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
+  }
+};
+
 

@@ -1,8 +1,11 @@
+body{
+  font-family: 'Poppins', sans-serif;
+}
+
 .contentAll {
   width: 100%;
   height: 100%;
-  padding: 0px 5px;
-  /* background: linear-gradient(to right, #141e30, #243b55); */
+  background-color: rgba(242, 242, 242, 0.8);
 }
 
 .contentAll .textPanel {
@@ -12,90 +15,98 @@
   text-align: justify;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  padding: 20px 10px;
+  background: #403c3a;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(20px);
 }
 
 .contentAll .textPanel h1 {
-  padding: 2px 0px;
-  color: #0D0D0D;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  color: #F2F2F2;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #f2f2f20e;
 }
 
 .contentAll .textPanel button {
   border-radius: 5px;
   padding: 5px 12px;
-  border: 1px solid rgba(238, 235, 235, 0.699);
+  border: 1px solid #f2f2f23a;
   cursor: pointer;
   background-color: transparent;
-  color: #0D0D0D;
+  color: #f2f2f2;
   font-weight: bold;
 }
 
 .contentAll .textPanel button:hover {
-  border: 1px solid rgba(192, 192, 192, 0.699);
+  border: 1px solid #f2f2f250;
 }
 
 /* Contenido de información */
 .contentAll .raffleInfo {
   width: 100%;
-  margin-top: 40px;
-
+  background-color: #f2f2f200;
+  backdrop-filter: blur(20px);
 }
 
 .contentAll .raffleInfo .raffleInfoHeader {
   width: 100%;
   height: auto;
+  margin: 10px 0;
   padding: 0 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: left;
-  font-size: 1rem;
-  font-weight: bolder !important;
   border-radius: 5px;
-  color: #0D0D0D;
 }
 
 .contentAll .raffleInfo .raffleInfoHeader .raffleInfoTitle{
-  font-size: 1rem;
+  width: 65%;
+  font-size: .9rem;
+  color: #f2f2f2;
+  padding: 5px 20px;
+  text-align: center;
+  border-radius: 5px;
+  background-color:#403C3A;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .contentAll .raffleInfo .raffleInfoContent {
   width: 100%;
   height: auto;
-  margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
+  margin: 0 10px;
   padding: 10px 20px;
   max-width: 900px; /* Limitamos el ancho máximo para que entren 4 tarjetas */
   margin-left: auto;
   margin-right: auto;
+  background-color: #f2f2f2;
+  backdrop-filter: blur(20px);
+
 }
 
 .contentAll .raffleInfo .raffleInfoContent .raffleInfoItem {
-  border-radius: 2px;
-  box-shadow: 1px 2px 4px 2px rgba(248, 243, 243, 0.021);
+  border-radius: 5px;
   padding: 10px;
   transition: transform 0.3s ease;
-  background: rgba(10, 10, 10, 0.774);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 1px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(0, 0, 0, 0.048);
+  background-color:#f2f2f28c;
+  backdrop-filter: blur(20px);
+  border: 1px solid #403c3a27;
+  box-shadow: 1px 8px 10px rgba(0, 0, 0, 0.3);
 }
 
 .contentAll .raffleInfo .raffleInfoContent .raffleInfoItem .raffleInfoHeader {
   display: inline;
   width: auto;
-  color: #f2f2f2;
-  font-size: .9rem;
+  color: #403C3A;
+  font-size: .8rem;
   font-weight: 300;
   margin: 10px 0;
-  padding: 5px 5px;
-  border-radius: 5px;
+  padding: 5px 10px;
+  border: 1px solid #403c3a25;
+  border-radius: 2px;
+  box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.3);
 }
 
 .contentAll .raffleInfo .raffleInfoContent .raffleInfoItem .raffleInfoTextarea {
@@ -103,12 +114,12 @@
   height: 130px;
   max-height: 130px;
   border-radius: 5px;
-  color: #f2f2f2;
+  color: #403C3A;
   resize: none;
   overflow-y: auto;
   padding: 8px;
   outline: none;
-  border: 1px solid rgba(194, 160, 160, 0.356);
+  border: 1px solid #403c3a2d;
   font-family: 'Poppins', sans-serif;
   font-size: .9rem;
   background-color: transparent;
@@ -121,20 +132,18 @@
 }
 
 .contentAll .raffleInfo .raffleInfoContent .raffleInfoItem .raffleInfoTextarea::-webkit-scrollbar-track {
-  background: #d3cbcb41;
+  background: #403c3a;
   border-radius: 10px;
 }
 
 .contentAll .raffleInfo .raffleInfoContent .raffleInfoItem .raffleInfoTextarea::-webkit-scrollbar-thumb {
-  background: #10403B;
+  background: #403c3a;
   border-radius: 10px;
 }
 
 .contentAll .raffleInfo .raffleInfoContent .raffleInfoItem .raffleInfoTextarea::-webkit-scrollbar-thumb:hover {
-  background: #4C5958;
+  background: #403c3a67;
 }
-
-
 
 .contentAll .raffleInfo .raffleInfoContent .raffleInfoItem .raffleInfoActions {
   width: 100%;
@@ -152,13 +161,139 @@
   border-radius: 5px;
   cursor: pointer;
   margin: 0 4px;
-  background-color: #034159;
+  background-color: #315925e5;
   color: #f2f2f2;
   transition: background 0.3s ease;
 }
 
 .contentAll .raffleInfo .raffleInfoContent .raffleInfoItem .raffleInfoActions .raffleInfoButton:hover {
-  background: #025951;
+  background: #315925;
+}
+
+.contentAll .contentImages{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 10px;
+  padding: 0 30px;
+}
+
+.contentAll .contentImages h3{
+  width: 65%;
+  height: auto;
+  color: #f2f2f2;
+  font-size: .9rem;
+  text-align: center;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 5px 20px;
+  background-color:#403C3A;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* estilos para las imagenes */
+.contentInputImages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 900px; 
+  height: 150px;
+  border: 2px dashed #403c3ab0;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+  position: relative;
+}
+
+.contentInputImages:hover {
+  border-color: #403c3a93;
+  background-color: #403c3a1e;
+}
+
+.contentInputImages::before {
+  content: attr(data-file-name); /* Muestra el nombre del archivo */
+  font-size: .9rem;
+  color: #403C3A;
+  font-weight: bold;
+  position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  text-align: center;
+}
+
+/* Si no hay archivo, se muestra el texto predeterminado */
+.contentInputImages[data-file-name=""]::before {
+  content: "Cargar imagen";
+}
+
+.addButton {
+  width: 180px;
+  border: none;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  text-align: center;
+  height: 30px;
+  padding: 10px;
+  color: #f2f2f2;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #315925e5;
+  margin: 10px 0;
+}
+
+.addButton:hover{
+  background-color: #315925;
+}
+
+/* contenido para las imagenes en el panel */
+.contentAll .contentImagesPanel{
+  width: 100%;
+  height: auto;
+  padding: 30px 0;
+  display: flex;
+  text-align: center;
+}
+
+.contentAll .contentImagesPanel .contentAllImages{
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 0px 20px;
+  max-width: 900px; 
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f2f2f2;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 20px 30px;
+}
+
+.contentAll .contentImagesPanel .contentAllImages img {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+  height: 100%;  
+  height: 200px;
+  border-radius: 5px;
+  background-color: #3159250c;
+  border: 1px solid #403c3a2f;
+  transition: transform 0.3s ease-in-out;
+}
+
+.contentAll .contentImagesPanel .contentAllImages img:hover {
+  transform: scale(1.03);
 }
 
 
@@ -173,75 +308,62 @@
 
 
 
-
-
-
-
-
+/* errores desde el servidor manejados desde el cliente */
 .error {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   max-width: 300px;
   width: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
   padding: 10px 20px;
   font-size: 0.9rem;
-  color: #b62c2c;
-  margin: 10px auto;
+  color: #f2f2f2;
+  background-color: #D9042B;
   border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000000;
   opacity: 1;
-  transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
-  max-height: 40px; /* Para evitar que colapse de golpe */
-  overflow: hidden;
+  transform: translateY(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-.error.hidden {
+.hidden {
   opacity: 0;
-  max-height: 0;
-  padding: 0;
-  margin: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
-
-
-
 
 
 /* mensajes de guardado exitoso de exitoso */
 .successMessage {
-  width: auto;
-  max-width: 300px;
-  padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #35d15a;
-  color: #f2f2f2;
-  text-align: center;
   position: fixed;
-  top: -50px; 
-  left: 50%;
-  transform: translateX(-50%);
-  transition: top 0.5s ease-in-out;
-  visibility: hidden;
+  bottom: 20px;
+  right: 20px;
+  max-width: 300px;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  color: #f2f2f2;
+  background-color: #315925;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000000;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 5s ease-in-out, transform 5s ease-in-out;
 }
 
-.successMessage.show {
-  top: 70px;
-  visibility: visible; 
+/* Oculta el mensaje suavemente */
+.successMessage.hidden {
+  opacity: 0;
+  transform: translateY(10px);
 }
-
-.successMessage:not(.show) {
-  top: -50px; 
-  visibility: hidden; 
-}
-
-
-
-
-
-
-
-
-
 
 
 
@@ -253,7 +375,7 @@
   }
 
   .contentAll .raffleInfo .raffleInfoContent {
-    padding: 0 2px;
+    padding: 0 30px;
   }
 }
 
@@ -261,5 +383,9 @@
   .contentAll .textPanel h1{
     font-size: 1rem;
     padding: 6px 0;
+  }
+
+  .contentAll .raffleInfo .raffleInfoContent {
+    padding: 0 20px;
   }
 }

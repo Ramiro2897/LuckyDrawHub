@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { login } from "../controllers/authController";
+import { logoutAdmin } from "../controllers/logoutController";
 import { textHeader } from "../controllers/updateTextHeaderController";
 import { verifyToken } from "../middleware/verifyToken";
 import { getHeaderText, getDateText, getPrizeText, getCardOneText, getCardTwoText, getCardThreeText } from "../controllers/getTextPanel";
@@ -9,6 +10,9 @@ import { updateTextInformation } from "../controllers/updateTextInformationContr
 import { updateTextCardOne } from "../controllers/updateTextCardOneController";
 import { updateTextCardTwo } from "../controllers/updateTextCardTwoController";
 import { updateTextCardThree } from "../controllers/updateTextCardThreeController";
+import { uploadImage } from "../controllers/uploadImage";
+import { getImages } from "../controllers/imageController";
+
 
 const router = Router();
 
@@ -16,6 +20,10 @@ const router = Router();
 router.post('/login', async (req, res) => {
   await login(req, res);
 });
+
+// cerrar sesion
+router.post('/logout', verifyToken, logoutAdmin);
+
 
 // Ruta para mostrar textos en el home -----------------------------
 router.get('/headerPublicText', async (req, res) => {
@@ -92,6 +100,17 @@ router.get('/cardThreeText', verifyToken, async (req, res) => {
   await getCardThreeText (req, res);
 });
 
+router.get('/images', verifyToken, async (req, res) => {
+  // console.log('pide las imagenes');
+  await getImages (req, res);
+});
+
+// ---------------------------
+// ruta para cargar las imagenes
+router.post('/upload', verifyToken, async (req, res) => {
+  // console.log('peticion para la imagen')
+  await uploadImage (req, res);
+});
 
 
 

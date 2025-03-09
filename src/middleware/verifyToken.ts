@@ -9,22 +9,21 @@ const SECRET_KEY = "luckysecret";
 export const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.headers.authorization?.split(" ")[1]; // Extraer el token del header
-    console.log(token, 'lo que llega');
     if (!token) {
-      console.log("No se envió el token"); // Para pruebas
+      // console.log("No se envió el token"); // Para pruebas
       res.status(401).json({ errors: { general: "Admin no autenticado" } });
       return;
     }
 
     // Decodificar el token
     const decoded = jwt.verify(token, SECRET_KEY) as { id: number };
-    console.log("Token decodificado:", decoded);
+    // console.log("Token decodificado:", decoded);
 
     // Buscar el usuario en la base de datos
     const admin = await adminRepository.findOne({ where: { id: decoded.id } });
 
     if (!admin) {
-      console.log('token no valido o usuario no encontrado ')
+      // console.log('token no valido o usuario no encontrado ')
       res.status(403).json({ error: "Token inválido o usuario no encontrado" });
       return;
     }
