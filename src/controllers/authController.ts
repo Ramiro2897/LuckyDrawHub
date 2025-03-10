@@ -3,13 +3,17 @@ import { AppDataSource } from "../data-source";
 import { User } from "../entities/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const SECRET_KEY = process.env.SECRET_KEY as string;
 
 const adminRepository = AppDataSource.getRepository(User);
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { email, password } = req.body;
-        console.log("Datos recibidos:", { email, password });
 
         if (!email || !password) {
             console.log("Faltan datos en la petición.");
@@ -31,8 +35,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
         console.log("Inicio de sesión exitoso para el usuario:", admin.id);
 
-        const token = jwt.sign({ id: admin.id }, "luckysecret");
-        console.log(token);
+        const token = jwt.sign({ id: admin.id }, SECRET_KEY, { expiresIn: "7d" });
 
         return res.json({ 
             token, 

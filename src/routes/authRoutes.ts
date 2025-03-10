@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
 });
 
 // cerrar sesion
-router.post('/logout', verifyToken, logoutAdmin);
+router.post('/logout', logoutAdmin);
 
 
 // Ruta para mostrar textos en el home -----------------------------

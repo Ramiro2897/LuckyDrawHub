@@ -252,7 +252,7 @@ const prevPage = () => {
       <footer className={styles.footer}>
       <div className={styles.contentFooter}>
         <div className={styles.footerSection}>
-          <p className={styles.footerName}>Rifas la pasinga</p>
+          <p className={styles.footerName}>¡Rifas la mentira! 😂</p>
           <p><a href="#" className={styles.footerLink}>Términos y Condiciones</a></p>
           <p className={styles.developer}>Desarrollado por: <span className={styles.name}>Ramiro González</span> </p>
         </div>

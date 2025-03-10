@@ -67,28 +67,28 @@ const Panel = () => {
         });
 
         const newImageUrl = response.data.url;
-console.log('🔄 Se agregó o actualizó una imagen:', newImageUrl);
+        console.log('🔄 Se agregó o actualizó una imagen:', newImageUrl);
 
-setImageList((prevImages) => {
-  const newImageBase = newImageUrl.replace(/\.[^.]+$/, ""); // Remueve la extensión
-
-  // Verifica si ya existe una imagen con el mismo nombre base
-  const exists = prevImages.some((image) => {
-    const existingBase = image.replace(/\.[^.]+$/, ""); 
-    return existingBase === newImageBase;
-  });
-
-  if (exists) {
-    // 🔄 Si existe, reemplaza la imagen con la nueva URL
-    return prevImages.map((image) => {
-      const existingBase = image.replace(/\.[^.]+$/, "");
-      return existingBase === newImageBase ? newImageUrl : image;
-    });
-  } else {
-    // ➕ Si no existe, la agrega a la lista
-    return [...prevImages, newImageUrl];
-  }
-});
+        setImageList((prevImages) => {
+          const newImageBase = newImageUrl.replace(/\.[^.]+$/, ""); // Remueve la extensión
+        
+          // Verifica si ya existe una imagen con el mismo nombre base
+          const exists = prevImages.some((image) => {
+            const existingBase = image.replace(/\.[^.]+$/, ""); 
+            return existingBase === newImageBase;
+          });
+        
+          if (exists) {
+            // 🔄 Si existe, reemplaza la imagen con la nueva URL
+            return prevImages.map((image) => {
+              const existingBase = image.replace(/\.[^.]+$/, "");
+              return existingBase === newImageBase ? newImageUrl : image;
+            });
+          } else {
+            // ➕ Si no existe, la agrega a la lista
+            return [...prevImages, newImageUrl];
+          }
+        });
 
         
         setSuccessMessage("Imagen subida con éxito");
@@ -200,7 +200,6 @@ setImageList((prevImages) => {
   const handleLogout = async () => {
     try {
         await axios.post(`${API_URL}/api/auth/logout`, {}, { 
-          headers: { Authorization: `Bearer ${token}` }
         });
         localStorage.removeItem("token");
         navigate("/panelLogin");
@@ -344,6 +343,24 @@ setImageList((prevImages) => {
             ))}
             </div>
           </div>
+
+          <div className={styles.contentCreateNumbers}>
+            <h3>Crear números</h3>
+            <div className={styles.createNumbers}>
+              <input type="number" placeholder="Cantidad de números" />
+              <select>
+                <option value="3">3 cifras</option>
+                <option value="4">4 cifras</option>
+              </select>
+              <input type="text" placeholder="Prefijo (opcional)" />
+              <input type="number" placeholder="Rango de inicio (opcional)" />
+            </div>
+            <div className={styles.contentButton}>
+              <button>Generar</button>
+            </div>
+            
+          </div>
+
 
       </div>
   );

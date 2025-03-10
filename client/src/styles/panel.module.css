@@ -241,8 +241,7 @@ body{
   justify-content: center; 
   align-items: center; 
   text-align: center;
-  height: 30px;
-  padding: 10px;
+  padding: 8px 25px;
   color: #f2f2f2;
   cursor: pointer;
   border-radius: 5px;
@@ -295,6 +294,100 @@ body{
 .contentAll .contentImagesPanel .contentAllImages img:hover {
   transform: scale(1.03);
 }
+
+/* contenido de agregar numeros */
+.contentAll .contentCreateNumbers {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+}
+
+.contentAll .createNumbers{
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+  justify-content: center;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.contentAll h3 {
+  width: 65%;
+  height: auto;
+  color: #f2f2f2;
+  font-size: .9rem;
+  text-align: center;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 5px 20px;
+  background-color:#403C3A;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.createNumbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 5px 0;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.createNumbers input,
+.createNumbers select {
+  flex: 1 1 calc(50% - 10px); /* Dos elementos por fila, restando el gap */
+  padding: 10px;
+  font-size: .9rem;
+  background-color: #403c3ae7;
+  color: #F2F2F2;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  min-width: 250px; 
+}
+
+.createNumbers input::placeholder{
+  color: #F2F2F2;
+  font-family: .9rem;
+}
+
+.contentAll .contentCreateNumbers .contentButton {
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentCreateNumbers button {
+  width: 180px;
+  border: none;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  text-align: center;
+  padding: 8px 25px;
+  color: #f2f2f2;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #315925e5;
+  margin: 10px 0;
+  border: 1px solid;
+}
+
+.contentCreateNumbers button:hover {
+  background-color: #315925;
+}
+
+
 
 
 
@@ -376,6 +469,14 @@ body{
 
   .contentAll .raffleInfo .raffleInfoContent {
     padding: 0 30px;
+  }
+
+  .addButton {
+    width: 100%;
+  }
+
+  .contentCreateNumbers button {
+    width: 100%;
   }
 }
 

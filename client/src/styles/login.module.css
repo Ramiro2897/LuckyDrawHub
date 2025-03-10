@@ -73,3 +73,12 @@
 .button:hover {
   background: #315925bd;
 }
+
+
+@media (max-width: 768px) {
+  
+.contenAll .container {
+  width: 100%;
+  height: 60vh;
+}
+}
