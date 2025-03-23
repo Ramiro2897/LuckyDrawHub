@@ -66,3 +66,42 @@ export const fetchCardThreeTextPublic = async (): Promise<string> => {
     throw { errors: { general: error.response?.data?.errors?.general || "Ocurrió un error inesperado." } };
   }
 };
+
+// Función para traer las imágenes públicas
+export const fetchImagePublic = async (): Promise<string[]> => {
+  try {
+    const response = await axios.get<{ url: string }[]>(`${API_URL}/api/auth/imagesPublic`);
+    return response.data.map((img) => img.url);
+  } catch (error: any) {
+    throw { errors: { general: error.response?.data?.errors?.general || "Ocurrió un error inesperado." } };
+  }
+};
+
+// Función para traer todos los números
+export const fetchAllNumbers = async (): Promise<number[]> => {
+  try {
+    const response = await axios.get<{ numbers: number[] }>(`${API_URL}/api/auth/allNumbers`);
+    return response.data.numbers;
+  } catch (error: any) {
+    throw { errors: { general: error.response?.data?.errors?.general || "Ocurrió un error inesperado." } };
+  }
+};
+
+// Función para traer la búsqueda de números
+interface NumbersResponse {
+  numbers: number[];
+}
+
+export const fetchNumbersBySearch = async (query: string): Promise<number[]> => {
+  try {
+    const response = await axios.get<NumbersResponse>(`${API_URL}/api/auth/search`, {
+      params: { search: query }  // Se envía correctamente como "search"
+    });
+    console.log(response.data.numbers, 'la busqueda');
+    return response.data.numbers;
+  } catch (error: any) {
+    const errorData = error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
+    console.log(errorData, 'el error en el servicio')
+    throw errorData;
+  }
+};

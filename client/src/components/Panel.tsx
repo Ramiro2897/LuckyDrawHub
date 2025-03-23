@@ -5,10 +5,11 @@ import axios from "axios";
 import { textHeader } from "../services/updateTextHeader";
 import { dateText } from "../services/updateTextDate";
 import { updateText } from "../services/updateTextService";
-import {updateTextCardOne} from "../services/updateTextCardOne";
-import {updateTextCardTwo} from "../services/updateTextCardTwo";
-import {updateTextCardThree} from "../services/updateTextCardThree";
+import { updateTextCardOne } from "../services/updateTextCardOne";
+import { updateTextCardTwo } from "../services/updateTextCardTwo";
+import { updateTextCardThree } from "../services/updateTextCardThree";
 import { fetchHeaderTextAdmin, fetchDateTextAdmin, fetchPrizeTextAdmin, fetchCardOneText, fetchCardTwoText, fetchCardThreeText, fetchImages} from '../services/fetchAdminTexts';
+import { generateRaffleNumbers } from "../services/raffleService"
 
 const Panel = () => {
   const [title] = useState("contenido header");
@@ -29,6 +30,10 @@ const Panel = () => {
   const [fileName, setFileName] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageList, setImageList] = useState<string[]>([]);
+  const [totalNumbers, setTotalNumbers] = useState<number>(0);
+  const [digits, setDigits] = useState<number>(3);
+  const [startRange, setStartRange] = useState<number>(0);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
 
@@ -196,23 +201,78 @@ const Panel = () => {
     fetchData();
   }, []);
 
+  // agregar numeros a la bd
+  const handleGenerateNumbers = async () => {
+    try {
+      const message = await generateRaffleNumbers(totalNumbers, digits, startRange, token);
+  
+      setErrors({});
+      setShowModal(false);
+      document.body.style.overflow = "auto";
+      document.body.style.pointerEvents = "auto";
+       // Limpiar inputs
+      setTotalNumbers(0);
+      setDigits(3);  
+      setStartRange(0);
+      setSuccessMessage(message);
+      setTimeout(() => setSuccessMessage(null), 5000);
+    } catch (error: any) {
+      setErrors(error);
+      setSuccessMessage(null);
+      setTimeout(() => setErrors({}), 5000);
+    }
+  };
+
   // cerrar sesion
   const handleLogout = async () => {
     try {
-        await axios.post(`${API_URL}/api/auth/logout`, {}, { 
-        });
+       if (!token) return;
+
+       await axios.post(
+        `${API_URL}/api/auth/logout`, {}, 
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+      );
+    
         localStorage.removeItem("token");
         navigate("/panelLogin");
     } catch (error: any) {
         setErrors(error.response?.data?.errors || { general: "Ocurrió un error inesperado." });
         setTimeout(() => setErrors({}), 5000);
     }
-};
+  };
 
+   
+  const openModal = () => {
+    setShowModal(true);
+    document.body.style.overflow = "hidden"; 
+    document.body.style.pointerEvents = "none"; 
+  };
+  
+  const closeModal = () => {
+    setShowModal(false);
+    document.body.style.overflow = "auto"; 
+    document.body.style.pointerEvents = "auto"; 
+  };
+  
+  
+  
 
 
   return (
       <div className={styles.contentAll}>
+      {/* modal de confirmación */}
+        {showModal && (
+          <div className={styles.modal}>
+            <p>¿Confirmar?</p>
+            <button onClick={handleGenerateNumbers}>Sí</button>
+            <button onClick={closeModal}>No</button>
+          </div>
+        )}
+
         {/* contenido del header */}
           <div className={styles.textPanel}>
             <h1>Panel de administrador</h1>
@@ -347,16 +407,18 @@ const Panel = () => {
           <div className={styles.contentCreateNumbers}>
             <h3>Crear números</h3>
             <div className={styles.createNumbers}>
-              <input type="number" placeholder="Cantidad de números" />
-              <select>
+              <input type="text" placeholder="Cantidad de números" value={totalNumbers || ""} 
+              onChange={(e) => setTotalNumbers(Number(e.target.value))} />
+              <select value={digits} onChange={(e) => setDigits(Number(e.target.value))}>
                 <option value="3">3 cifras</option>
                 <option value="4">4 cifras</option>
               </select>
               <input type="text" placeholder="Prefijo (opcional)" />
-              <input type="number" placeholder="Rango de inicio (opcional)" />
+              <input type="text" placeholder="Rango de inicio" value={startRange || ""} 
+              onChange={(e) => setStartRange(Number(e.target.value))} />
             </div>
             <div className={styles.contentButton}>
-              <button>Generar</button>
+              <button  onClick={openModal}>Generar</button>
             </div>
             
           </div>

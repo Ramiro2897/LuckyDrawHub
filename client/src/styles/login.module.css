@@ -52,6 +52,10 @@
   transition: all 0.3s ease-in-out;
 }
 
+.input::placeholder{
+  color: #403C3A;
+}
+
 .input:focus {
   border-color: #3159258c;
   box-shadow: 0px 0px 8px #403C3A;

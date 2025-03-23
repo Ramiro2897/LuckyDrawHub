@@ -10,4 +10,7 @@ export class  User {
 
     @Column()
     password: string;
+
+    @Column({ type: "uuid", nullable: true }) 
+    session_uuid: string | null;
 }

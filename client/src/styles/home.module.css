@@ -9,7 +9,7 @@ body{
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color:  #F2F2F2 !important;
+  background-color:  #F2F2F2;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -21,12 +21,15 @@ body{
 .container .info{
   width: 100%;
   height: 65px;
+  font-weight: bold;
+  font-size: .9rem;
+  color: #F2F2F2;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 1rem;
-  background-color:#04272d;
+  background-color:#1B1A26;
   position: fixed;
   top: 0;
   z-index: 1000;
@@ -40,7 +43,7 @@ body{
   justify-content: space-around;
   align-items: center;
   text-align: center;
-  background-color: #001512;
+  background-color: #1b1a26fb;
   margin-top: 60px;
 }
 
@@ -54,7 +57,7 @@ body{
   justify-content: center;
   align-items: center;
   margin: 20px 0;
-  background-image: url('../assets/rifa.jpg');
+  background-image: url('../assets/logo.jpg');
   background-size: cover; 
   background-position: center;
   object-fit: cover; 
@@ -63,13 +66,14 @@ body{
 .container .header .textInfo{
   margin-top: 10px;
   padding: 0 10px;
+  color: #F2F2F2;
 }
 
 .container .section {
   width: 100%;
   height: auto;
   display: flex;
-  flex-wrap: wrap; /* Permite que los elementos bajen cuando no haya espacio */
+  flex-wrap: wrap; 
   padding: 60px;
   gap: 10px;
 }
@@ -88,10 +92,17 @@ body{
 .container .section .left p{
   width: 80%;
   padding: 10px;
-  font-size: 1.4rem;
-  background-color: #02cdad;
-  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.2);
+  font-size: 1.3rem;
+  background-color: #758C51;
+  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  color: #F2F2F2;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.container .section .left p:hover {
+  transform: scale(1.02);
+  background-color: #5f743d;
 }
 
 /* stilos para las imagenes */
@@ -103,10 +114,15 @@ body{
   background-image: url('../assets/image.jpg');
   background-size: cover; 
   background-position: center;
+  background-repeat: no-repeat;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
   object-fit: cover; 
   box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.2);
-  transition: background-image 0.5s ease-in-out;
+  transition: background-image 0.5s ease-in-out, filter 0.4s ease-in-out;
 }
+
 
 /* Estilos generales para los botones */
 .imageButtons {
@@ -129,7 +145,7 @@ body{
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.3);
-  color: #ffffff;
+  color: #F2F2F2;
   border: none;
   padding: 5px;
   cursor: pointer;
@@ -150,12 +166,12 @@ body{
 /* estilos para el contenido de la derecha */
 .container .section .right .text{
   width: 80%;
-  color: #001512;
+  color: #403C3A;
   padding: 10px;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-bottom: 5px;
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2), 
-  -2px -2px 4px rgba(255, 255, 255, 0.2);
+  -2px -2px 4px #403c3a02;
 }
 
 .container .section .right .cardOne, 
@@ -164,23 +180,27 @@ body{
   width: 80%;
   height: auto;
   margin: 20px 0;
-  border: 2px solid rgba(160, 159, 159, 0.5);
+  border: 1px solid #403c3a2d;
+  background-color: #f2f2f200;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  padding: 10px 5px;
+  padding: 20px 5px;
   cursor: pointer;
-  color: #001512;
+  color: #403C3A;
   word-wrap: break-word;
   overflow-wrap: break-word; 
   white-space: normal; 
+  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
 
 .container .section .right .cardThree{
-  padding: 10px 5px !important;
-  border: 2px solid rgba(160, 159, 159, 0.5);
+  padding: 20px 5px !important;
+  border: 1px solid #403c3a2d;
+  box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
 }
 
 .container .section .right .cardThree p{
@@ -215,7 +235,7 @@ body{
   hyphens: auto;
 }
 
-.container .section .right .progressBar{
+.container .section .right .progressBar {
   width: 100%;
   text-align: center;
   display: flex;
@@ -224,29 +244,34 @@ body{
   margin-top: 10px;
 }
 
-.container .section .right .progress{
+.container .section .right .progress {
   width: 80%;
-  height: 15px;
+  height: 22px;
   border-radius: 10px;
   overflow: hidden;
   appearance: none;
+  background-color: #403c3a1f;
+  position: relative;
 }
 
-.container .section .right .progress::-webkit-progress-bar{
-  background-color: #8d9997;
-  border-radius: 10px;
+.container .section .right .progress::-webkit-progress-bar {
+  background-color: #403c3a1f;
+  border-radius: 2px;
 }
 
-.container .section .right .progress::-webkit-progress-value{
-  background-color: #02cdad; 
+.container .section .right .progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #758c51a6, #758C51);
   border-radius: 10px;
+  transition: width 0.4s ease-in-out;
 }
 
 .container .section .right .progress::-moz-progress-bar {
-  background-color: #02cdad;
-  border-radius: 10px;
+  background: linear-gradient(90deg, #758c51a6, #758C51);
+  border-radius: 2px;
+  transition: width 0.4s ease-in-out;
 }
 
+/* Estilos para mostrar el valor encima de la barra */
 .progressText {
   margin-top: 5px;
   font-size: 14px;
@@ -254,32 +279,14 @@ body{
   color: #001512;
 }
 
-.container .section .right .progress::-webkit-progress-value {
-  background: repeating-linear-gradient(
-    -45deg,
-    #02cdad,
-    #02cdad 10px,
-    #ccc 10px,
-    #ccc 20px
-  );
-}
-.container .section .right .progress::-moz-progress-bar {
-  background: repeating-linear-gradient(
-    -45deg,
-    #02cdad,
-    #02cdad 10px,
-    #ccc 10px,
-    #ccc 20px
-  );
-}
 
 /* estilos para la seccion dos */
 .container .sectionTwo{
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .container .sectionTwo h3{
-  color: #5c84ad;
+  color: #1b1a26da;
 }
 
 .container .sectionTwo .combo {
@@ -312,10 +319,8 @@ body{
   height: auto;
   max-width: 100%;
   border-radius: 5px;
-  object-fit: cover; /* Evita que las imágenes se deformen y recorta si es necesario */
+  object-fit: cover; 
 }
-
-
 
 
 /* estilos para seleccion de numeros */
@@ -325,8 +330,8 @@ body{
 }
 
 .container .chooseNumbers h3{
-  color: #5c84ad;
-  padding: 10px;
+  color: #1b1a26da;
+  padding: 20px;
 }
 
 /* estilos barra de busqueda */
@@ -338,32 +343,31 @@ body{
   width: 50%;
   outline: none;
   padding: 10px;
-  border: 1px solid #8d9997;
+  border: 1px solid #403c3a81;
   background-color: transparent;
-  color: #001512;
+  color: #1b1a26da;
   border-radius: 5px 0px 0px 5px;
 }
 
 .container .chooseNumbers .searchNumbers input::placeholder{
-  color: #001512;
+  color: #403C3A;
 }
 
 .container .chooseNumbers .searchNumbers input:focus {
-  border-color: #02cdad;
-  box-shadow: 0 0 5px #04272d;
+  box-shadow: 0 0 5px #403C3A;
 }
 
 .container .chooseNumbers .searchNumbers button{
   padding: 12px 12px;
   cursor: pointer;
-  background-color: #001233;
+  background-color: #1B1A26;
   border-radius: 0px 5px 5px 0px;
   border: none;
   transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
 .container .chooseNumbers .searchNumbers button:hover {
-  background-color: #002855;
+  background-color: #1b1a26ec;
   opacity: 0.9;
 }
 
@@ -375,7 +379,6 @@ body{
   text-align: center;
   flex-direction: column;
   height: auto;
-  color: rgb(51, 58, 58);
 }
 
 .container .chooseNumbers .contentNumbers .numberList{
@@ -392,22 +395,35 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #02cdad;
-  color: #001512;
-  padding: 10px;
+  background-color: #758C51;
+  color: #1B1A26;
   margin: 5px;
   border-radius: 5px;
   font-weight: bold;
-  width: 40px;
+  width: 60px;
+  height: 40px;
   cursor: pointer;
+  transition: transform 0.2s ease-in-out; 
 }
+
+.rifaNumber:hover {
+  transform: scale(1.2);
+}
+
+.selected {
+  background-color: #315925; 
+  color: #f2f2f2;
+  border-radius: 5px;
+  padding: 5px;
+}
+
 
 .container .chooseNumbers .buttonsNextPrev{
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #001512;
+  color: #1B1A26;
 }
 
 .container .chooseNumbers .buttonsNextPrev .buttonsContent{
@@ -420,20 +436,34 @@ body{
 .container .chooseNumbers .buttonsNextPrev .buttonsContent .buttonBack,
 .container .chooseNumbers .buttonsNextPrev .buttonsContent .buttonNext{
   padding: 8px 20px;
-  color: #ffffff;
-  background-color: #001512;
+  color: #f2f2f2;
+  background-color:#732C39;
   border-radius: 5px;
   cursor: pointer;
-  user-select: none; /* Evita que se seleccione el texto */
-  -webkit-user-select: none; /* Para navegadores WebKit (Chrome, Safari) */
-  -moz-user-select: none; /* Para Firefox */
-  -ms-user-select: none; /* Para Edge y versiones antiguas de IE */
+  user-select: none; 
+  -webkit-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .container .chooseNumbers .buttonsNextPrev .buttonsContent .buttonBack:hover,
 .container .chooseNumbers .buttonsNextPrev .buttonsContent .buttonNext:hover {
-  background-color: #00332c;
+  background-color: #732c39e3;
+}
+
+.backButton{
+  padding: 5px 10px;
+  background-color: #1B1A26;
+  color: #F2F2F2;
+  cursor: pointer;
+  border: none;
+  margin-right: 4px;
+  border-radius: 2px;
+}
+
+.backButton:hover{
+  background-color: #1b1a26d0;
 }
 
  
@@ -446,16 +476,16 @@ body{
 .container .chooseNumbers .contentNumbers .btnPay button{
   padding: 10px 15px;
   border: none;
-  color: #ffffff;
-  background-color: #5c84ad;
+  color: #F2F2F2;
+  background-color: #BF6849;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .container .chooseNumbers .contentNumbers .btnPay button:hover {
-  background-color: #4682a9;
-  border-color: #ffffff;
+  background-color: #bf6849e0;
+  border-color: #f2f2f2;
   transform: translateY(-2px);
 }
 
@@ -466,11 +496,11 @@ body{
 
 .container .chooseNumbers .checkNumbers button {
   padding: 10px 15px;
-  color: #ffffff;
-  background: linear-gradient(45deg, #5c84ad, #02cdad);
+  color: #f2f2f2;
+  background: linear-gradient(45deg, #BF6849, #bf6849d0);
   border-radius: 5px;
   cursor: pointer;
-  border: 1px solid #02cdad;
+  border: 1px solid #bf6849ce;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -482,10 +512,10 @@ body{
 
 /* Hover potente */
 .container .chooseNumbers .checkNumbers button:hover {
-  background: linear-gradient(45deg, #02cdad, #5c84ad);
-  box-shadow: 0 6px 12px rgba(2, 205, 173, 0.5);
+  background: linear-gradient(45deg, #bf6849, #bf6849a6);
+  box-shadow: 0 6px 12px #732C39;
   transform: scale(1.05);
-  border-color: #ffffff;
+  border-color: #f2f2f2;
 }
 
 /* Efecto de brillo en hover */
@@ -508,8 +538,8 @@ body{
 .container .footer{
   width: 100%;
   height: auto;
-  background-color: #04272d;
-  color: #ffffff;
+  background-color: #1b1a26ee;
+  color: #f2f2f2;
 }
 
 .container .contentFooter {
@@ -520,7 +550,7 @@ body{
   align-items: center; 
   gap: 10px; 
   padding: 20px; 
-  color: white;
+  color: #f2f2f2;
   text-align: center;
 }
 
@@ -543,7 +573,7 @@ body{
 /* Enlace de términos */
 .container .contentFooter .footerSection .footerLink {
   font-size: .9rem;
-  color: #4682a9;
+  color: #5AA2BF;
   margin: 5px 0;
   text-decoration: none;
   font-weight: bold;
@@ -551,7 +581,7 @@ body{
 
 .container .contentFooter .footerSection .footerLink:hover {
   text-decoration: underline;
-  color: #5c84ad;
+  color: #5aa2bfce;
 }
 
 /* Texto del desarrollador */
@@ -564,7 +594,7 @@ body{
 
 .name {
   font-weight: bold;
-  color: #00b4d8;
+  color: #5AA2BF;
   font-size: 1em;
 }
 
@@ -574,20 +604,20 @@ body{
   font-size: 1.1rem;
   font-weight: bold;
   margin-bottom: 8px;
-  color: #00b4d8;
+  color: #5AA2BF;
 }
 
 /* Contacto */
 .container .contentFooter .footerSection .contactNumber {
-  font-size: 1rem;
+  font-size: .9rem;
   font-weight: bold;
-  color: #ffffff;
+  color: #f2f2f2;
   margin: 10px 0;
 }
 
 .container .contentFooter .footerSection .contactEmail {
   font-size: 0.9rem;
-  color: #e6e6e6;
+  color: #f2f2f2;
   word-break: break-word; 
   margin: 10px 0;
 }
@@ -599,11 +629,10 @@ body{
   gap: 10px;
   font-size: 1rem;
   font-weight: bold;
-  color: #02cdad;
+  color: #5AA2BF;
   display: flex;
   flex-direction: column;
 }
-
 
 /* estilos para imagenes del footer */
 .container .contentFooter .footerSection .paymentMethod .mercado{
@@ -620,7 +649,7 @@ body{
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #ffffff;
+  color: #f2f2f2;
   padding: 30px 0;
   font-size: .9rem;
 }
@@ -631,8 +660,8 @@ body{
   position: fixed; 
   bottom: 20px; 
   right: 20px; 
-  background: rgba(255, 0, 0, 0.9); 
-  color: white;
+  background: #D90416; 
+  color: #F2F2F2;
   padding: 10px 20px;
   border-radius: 5px;
   font-size: 0.9rem;
@@ -648,12 +677,24 @@ body{
   transform: translateY(0); /* Sube suavemente */
 }
 
+.errorContainer {
+  min-height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
-
-
-
-
-
+.errorSearch {
+  font-size: 0.8rem;
+  font-style: italic;
+  font-weight: 600;
+  height: 20px;
+  padding: 2px 20px;
+  border-radius: 5px;
+  color: #D90416;
+  text-align: center;
+}
 
 /* estilos responsivos */
 @media (max-width: 768px) {
@@ -705,8 +746,6 @@ body{
   flex-direction: column;
 }
 
-
-
 .container .chooseNumbers .searchNumbers input{
   width: 80%;
 }
@@ -742,7 +781,6 @@ body{
 .container .header{
   margin-top: 100px;
 }
-
 
 }
 

@@ -4,7 +4,7 @@ import { logoutAdmin } from "../controllers/logoutController";
 import { textHeader } from "../controllers/updateTextHeaderController";
 import { verifyToken } from "../middleware/verifyToken";
 import { getHeaderText, getDateText, getPrizeText, getCardOneText, getCardTwoText, getCardThreeText } from "../controllers/getTextPanel";
-import { getHeaderTextPublic, getDateTextPublic, getPrizeTextPublic, getCardOneTextPublic, getCardTwoTextPublic, getCardThreeTextPublic} from "../controllers/getTextPublic";
+import { getHeaderTextPublic, getDateTextPublic, getPrizeTextPublic, getCardOneTextPublic, getCardTwoTextPublic, getCardThreeTextPublic, getPublicImages} from "../controllers/getTextPublic";
 import { updateDateText } from "../controllers/updateDateTextController";
 import { updateTextInformation } from "../controllers/updateTextInformationController";
 import { updateTextCardOne } from "../controllers/updateTextCardOneController";
@@ -12,6 +12,10 @@ import { updateTextCardTwo } from "../controllers/updateTextCardTwoController";
 import { updateTextCardThree } from "../controllers/updateTextCardThreeController";
 import { uploadImage } from "../controllers/uploadImage";
 import { getImages } from "../controllers/imageController";
+import { generateNumbers } from "../controllers/generateNumbers";
+import { getNumbers } from "../controllers/getNumbers";
+import { getNumbersBySearch } from "../controllers/getNumbersBySearch";
+import { paymentNumbers } from "../controllers/paymentNumbers";
 
 
 const router = Router();
@@ -22,8 +26,10 @@ router.post('/login', async (req, res) => {
 });
 
 // cerrar sesion
-router.post('/logout', logoutAdmin);
-
+router.post('/logout', verifyToken, async (req, res) => {
+  console.log('entro cuando se quiere cerrar la sesion');
+  await logoutAdmin(req, res);
+});
 
 // Ruta para mostrar textos en el home -----------------------------
 router.get('/headerPublicText', async (req, res) => {
@@ -44,6 +50,18 @@ router.get('/cardTwoPublicText', async (req, res) => {
 router.get('/cardThreePublicText', async (req, res) => {
   await getCardThreeTextPublic (req, res);
 });
+router.get('/imagesPublic', async (req, res) => {
+  await getPublicImages (req, res);
+});
+
+router.get('/allNumbers', async (req, res) => {
+  await getNumbers (req, res);
+});
+
+router.get('/search', async (req, res) => {
+  await getNumbersBySearch (req, res);
+});
+
 // ---------------------------------------
 
 // Ruta para actualizar el texto del header
@@ -111,6 +129,43 @@ router.post('/upload', verifyToken, async (req, res) => {
   // console.log('peticion para la imagen')
   await uploadImage (req, res);
 });
+
+// ruta para agregar los números
+router.post('/generateNumbers', verifyToken, async (req, res) => {
+  console.log('peticion para agregar los números')
+  await generateNumbers (req, res);
+});
+
+// ruta para pagos
+router.post('/payment-confirmation', async (req, res) => {
+  try {
+    console.log("✅ Confirmación de pago recibida:", req.body);
+    await paymentNumbers(req, res);
+  } catch (error) {
+    console.error('Error al procesar el pago:', error);
+    res.status(500).json({ errors: { general: 'Error interno del servidor' } });
+  }
+});
+
+// router.post("/wompi/webhook", async (req, res) => {
+//   try {
+//     console.log("🔔 Webhook recibido");
+//     await wompiWebhook(req, res);
+//   } catch (error) {
+//     console.error("❌ Error en el Webhook:", error);
+//     res.status(500).json({ errors: { general: "Error interno del servidor" } });
+//   }
+// });
+
+
+
+
+
+
+
+
+
+
 
 
 

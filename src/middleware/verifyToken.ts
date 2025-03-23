@@ -30,8 +30,8 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
     // Buscar el usuario en la base de datos
     const admin = await adminRepository.findOne({ where: { id: decoded.id } });
 
-    if (!admin) {
-      res.status(403).json({ errors: { general: "Token inválido o usuario no encontrado" } });
+    if (!admin || !admin.session_uuid) {
+      res.status(403).json({ errors: { general: "Sesión no válida" } });
       return;
     }
 

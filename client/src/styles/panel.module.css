@@ -387,19 +387,77 @@ body{
   background-color: #315925;
 }
 
+/* estilos para el modal */
+.modal {
+  width: 50%;
+  max-width: 250px;
+  min-width: 280px;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #F2F2F2;
+  color: #403C3A;
+  font-size: 1rem;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1000;
+  pointer-events: auto;
+  animation: slideDown 0.5s ease-out;
+}
 
+@keyframes slideDown {
+  from {
+    top: -50px; /* Empieza fuera de la pantalla */
+    opacity: 0;
+  }
+  to {
+    top: 10%;
+    opacity: 1;
+  }
+}
 
+.modal button {
+  margin: 10px;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
+.modal button:first-of-type {
+  background-color: #315925;
+  color: white;
+}
 
+.modal button:first-of-type:hover{
+  background-color: #315925f5;
+}
 
+.modal button:last-of-type {
+  background-color: #D9042B;
+  color: #f2f2f2;
+}
 
+.modal button:last-of-type:hover{
+  background-color: #d9042bdc;
+}
 
+.modal-active {
+  overflow: hidden;
+  pointer-events: none;
+}
 
+.modal-open {
+  overflow: hidden;
+  pointer-events: none;
+}
 
-
-
-
-
+.modal-open #modal {
+  pointer-events: auto;
+}
 
 /* errores desde el servidor manejados desde el cliente */
 .error {
@@ -457,8 +515,6 @@ body{
   opacity: 0;
   transform: translateY(10px);
 }
-
-
 
 /* estilos responsivos */
 @media (max-width: 768px) {

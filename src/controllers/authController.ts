@@ -4,6 +4,7 @@ import { User } from "../entities/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { v4 as uuidv4 } from "uuid";
 
 dotenv.config();
 
@@ -34,6 +35,10 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         }
 
         console.log("Inicio de sesión exitoso para el usuario:", admin.id);
+
+        const sessionUUID = uuidv4();
+        admin.session_uuid = sessionUUID;
+        await adminRepository.save(admin);
 
         const token = jwt.sign({ id: admin.id }, SECRET_KEY, { expiresIn: "7d" });
 

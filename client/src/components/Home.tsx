@@ -2,21 +2,22 @@ import { useState, useEffect} from "react";
 import styles from '../styles/home.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, faSearch, faChevronLeft, faChevronRight, faLock, faArrowLeft, faArrowRight  } from '@fortawesome/free-solid-svg-icons';
-import { fetchHeaderTextPublic, fetchDateTextPublic, fetchPrizeTextPublic, fetchCardOneTextPublic, fetchCardTwoTextPublic, fetchCardThreeTextPublic } from "../services/fetchTextPublic";
+import { 
+  fetchHeaderTextPublic, 
+  fetchDateTextPublic, 
+  fetchPrizeTextPublic, 
+  fetchCardOneTextPublic, 
+  fetchCardTwoTextPublic, 
+  fetchCardThreeTextPublic, 
+  fetchImagePublic, 
+  fetchAllNumbers, 
+  fetchNumbersBySearch 
+} from "../services/fetchTextPublic";
+import PaymentModal from "../components/PaymentModal";
 
-import img1 from '../assets/image.jpg';
-import img2 from '../assets/rifa.jpg';
-import img3 from '../assets/image.jpg';
-import img4 from '../assets/rifa.jpg';
-import img5 from '../assets/image.jpg';
 import imgMercadoPago from '../assets/mercadopago.png';
 import imgMercado from '../assets/mercado-pago.png';
-import img from '../assets/image-boleto.jpg';
 
-
-
-
-const images = [img1, img2, img3, img4, img5];
 
 const Home = () => {
   
@@ -29,15 +30,26 @@ const Home = () => {
   const [textCardOne, setTextCardOne] = useState("");
   const [textCardTwo, setTextCardTwo] = useState("");
   const [textCardThree, setTextCardThree] = useState("");
-  const [errors, setErrors] = useState<{ general?: string }>({});
+  const [imagesPublic, setImagesPublic] = useState<string[]>([]);
+  const [otherImages, setOtherImages] = useState<string[]>([]);
+  const [allNumbers, setAllNumbers] = useState<number[]> ([]);
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [filteredNumbers, setFilteredNumbers] = useState<number[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
+  const [errors, setErrors] = useState<{ general?: string; search?: string }>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+
+  // pasar imagenes
   const prevSlide = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
 
     setFade(true); 
     setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+      setCurrentIndex((prevIndex) => (prevIndex === 0 ? imagesPublic.length - 1 : prevIndex - 1));
     }, 200); 
 
     setTimeout(() => {
@@ -52,7 +64,7 @@ const Home = () => {
 
     setFade(true);
     setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+      setCurrentIndex((prevIndex) => (prevIndex === imagesPublic.length - 1 ? 0 : prevIndex + 1));
     }, 200);
 
     setTimeout(() => {
@@ -61,42 +73,40 @@ const Home = () => {
     }, 500);
   };
 
-// ---------------------------
-const totalNumbers = 100; // Número total de la rifa
-const numbersPerPage = 30; // Cantidad de números por página
-const [currentPage, setCurrentPage] = useState(0);
+// --------------------------- Mostrar los números----------------------------
+  const numbersPerPage = 30; // Cantidad de números por página
+  const [currentPage, setCurrentPage] = useState(0);
 
-// Generar los números aleatorios UNA SOLA VEZ (para que no cambien al cambiar de página)
-const allNumbers = Array.from({ length: totalNumbers }, () => Math.floor(Math.random() * 900) + 100);
+  // Obtener los números para la página actual
+  const startIndex = currentPage * numbersPerPage;
+  const visibleNumbers = allNumbers.slice(startIndex, startIndex + numbersPerPage);
 
-// Obtener los números para la página actual
-const startIndex = currentPage * numbersPerPage;
-const visibleNumbers = allNumbers.slice(startIndex, startIndex + numbersPerPage);
+  // Funciones para cambiar de página
+  const nextPage = () => {
+    if ((currentPage + 1) * numbersPerPage < allNumbers.length) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
 
-// Funciones para cambiar de página
-const nextPage = () => {
-  if (startIndex + numbersPerPage < totalNumbers) {
-    setCurrentPage(currentPage + 1);
-  }
-};
+  const prevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
 
-const prevPage = () => {
-  if (currentPage > 0) {
-    setCurrentPage(currentPage - 1);
-  }
-};
-// ------------------------------------------------------------
   // Cargar todos los textos al iniciar
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [ headerText, dateText, prizeText, cardOneText, cardTwoText, cardThreeText ] = await Promise.all([
+        const [ headerText, dateText, prizeText, cardOneText, cardTwoText, cardThreeText, images, numbers ] = await Promise.all([
           fetchHeaderTextPublic(),
           fetchDateTextPublic(),
           fetchPrizeTextPublic(),
           fetchCardOneTextPublic(),
           fetchCardTwoTextPublic(),
           fetchCardThreeTextPublic(),
+          fetchImagePublic(),
+          fetchAllNumbers(),
         ]);
 
         setText(headerText);
@@ -105,6 +115,9 @@ const prevPage = () => {
         setTextCardOne(cardOneText);
         setTextCardTwo(cardTwoText);
         setTextCardThree(cardThreeText);
+        setImagesPublic(images.slice(0, 4));
+        setOtherImages(images.slice(4, 6));
+        setAllNumbers(numbers);
       } catch (error: any) {
         const errorData = error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
         setErrors(errorData);
@@ -116,6 +129,44 @@ const prevPage = () => {
   }, []);
 
 
+  // realizar la busqueda
+  const handleSearch = async () => {
+    try {
+      setIsSearching(true);
+      const numbers = await fetchNumbersBySearch(searchTerm);
+  
+      if (numbers.length > 0) {
+        setFilteredNumbers(numbers); // Solo actualizar si hay resultados
+      } else {
+        setFilteredNumbers([]); // Si no hay resultados, limpiamos
+      }
+  
+      setErrors({});
+    } catch (error: any) {
+      setErrors(error);
+      setFilteredNumbers([]);
+      setTimeout(() => setErrors({}), 5000);
+    }
+  };
+  
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+  
+    if (value === "") {
+      setIsSearching(false); // Dejar de buscar cuando se borra
+      setFilteredNumbers([]); // Resetear búsqueda
+    }
+  };
+  
+  const toggleNumberSelection = (num: number) => {
+    setSelectedNumbers((prevSelected) =>
+      prevSelected.includes(num)
+        ? prevSelected.filter((n) => n !== num) // Si ya está, lo quita
+        : [...prevSelected, num] // Si no está, lo agrega
+    );
+  };
 
   return (
 
@@ -126,7 +177,7 @@ const prevPage = () => {
         <p>{text}</p>
       </div>
       <div className={styles.header}>
-        <div className={styles.logo}>LOGO</div>
+        <div className={styles.logo}></div>
         <div className={styles.textInfo}>
           <p>{textDate}</p>
         </div>
@@ -140,7 +191,7 @@ const prevPage = () => {
           <p>{contentText}</p>
 
           {/* Contenido de images con slider */}
-          <div className={`${styles.image} ${fade ? styles.fade : ""}`} style={{ backgroundImage: `url(${images[currentIndex]})` }}>
+          <div className={`${styles.image} ${fade ? styles.fade : ""}`} style={{ backgroundImage: `url(${import.meta.env.VITE_API_URL}${imagesPublic[currentIndex]})` }}>
             <div className={styles.imageButtons}>
               <div
                 className={styles.buttonLeft}
@@ -151,8 +202,8 @@ const prevPage = () => {
               {/* Botón Derecho */}
               <div
                 className={styles.buttonRight}
-                onClick={currentIndex === images.length - 1 ? undefined : nextSlide}>
-                <FontAwesomeIcon icon={currentIndex === images.length - 1 ? faLock : faChevronRight} size="1x" />
+                onClick={currentIndex === imagesPublic.length - 1 ? undefined : nextSlide}>
+                <FontAwesomeIcon icon={currentIndex === imagesPublic.length - 1 ? faLock : faChevronRight} size="1x" />
               </div>
             </div>
           </div>
@@ -164,19 +215,19 @@ const prevPage = () => {
           <p className={styles.text}>¡Y hay más premios!</p>
           <div className={styles.cardOne}>
             <span className={styles.contentImage}> 
-              <FontAwesomeIcon icon={faTrophy} size="3x" color="gold" />
+              <FontAwesomeIcon icon={faTrophy} size="3x" color="#F2C744" />
             </span>
             <p>{textCardOne}</p>
           </div>
           <div className={styles.cardTwo}>
             <span className={styles.contentImage}>
-              <FontAwesomeIcon icon={faTrophy} size="3x" color="gold" />
+              <FontAwesomeIcon icon={faTrophy} size="3x" color="#F2C744" />
             </span>
             <p>{textCardTwo}</p>
           </div>
           <div className={styles.cardThree}>
             <span className={styles.contentImage}>
-              <FontAwesomeIcon icon={faTrophy} size="3x" color="gold" />
+              <FontAwesomeIcon icon={faTrophy} size="3x" color="#F2C744" />
             </span>
             <p>{textCardThree}</p>
           </div>
@@ -194,53 +245,97 @@ const prevPage = () => {
         <h3> Combos para participar 🥳</h3>
         <div className={styles.combo}>
           <div className={styles.oneCard}>
-            <img src={img} alt="imagen de boleto" />
+            <img src={`${import.meta.env.VITE_API_URL}${otherImages[0]}`} alt="Premio 5" />
           </div>
           <div className={styles.twoCard}>
-            <img src={img} alt="imagen de boleto" />
+            <img src={`${import.meta.env.VITE_API_URL}${otherImages[1]}`} alt="Premio 6" />
           </div>
         </div>
 
       </div>
 
       <div className={styles.chooseNumbers}>
-        <h3>Escoge tus número 👇</h3>
+        <h3>Escoge tus números 👇</h3>
         <div className={styles.searchNumbers}>
-          <input type="text" placeholder="Buscar números..." />
-          <button>
+          <input type="text" placeholder="Buscar números..."  value={searchTerm}
+           onChange={handleInputChange} 
+           />
+          <button onClick={handleSearch}>
             <FontAwesomeIcon icon={faSearch} />
           </button>
         </div>
-        {/* lista de numeros */}
+        <div className={styles.errorContainer}>
+          <p className={styles.errorSearch}>{errors.search || errors.general}</p>
+        </div>
+        {/* Lista de números (Filtrados o Todos) */}
         <div className={styles.contentNumbers}>
           <div className={styles.numberList}>
-            {visibleNumbers.map((num, i) => (
-              <span key={i} className={styles.rifaNumber}>
-                {num}
-              </span>
-            ))}
+            {isSearching && filteredNumbers.length > 0 ? (
+              <>
+                <button className={styles.backButton} onClick={() => {
+                  setIsSearching(false);
+                  setCurrentPage(0);
+                }}>
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+                {filteredNumbers.map((num, i) => (
+                  <span 
+                    key={i} 
+                    className={`${styles.rifaNumber} ${selectedNumbers.includes(num) ? styles.selected : ""}`} 
+                    onClick={() => toggleNumberSelection(num)}
+                  >
+                  {num}
+                  </span>
+                ))}
+                </>
+                ) : (
+                visibleNumbers.map((num, i) => (
+                  <span 
+                    key={i} 
+                    className={`${styles.rifaNumber} ${selectedNumbers.includes(num) ? styles.selected : ""}`} 
+                    onClick={() => toggleNumberSelection(num)}
+                  >
+                    {num}
+                  </span>
+               ))
+            )}
+
           </div>
 
           {/* Botones de navegación */}
-          <div className={styles.buttonsNextPrev}>
-            <div className={styles.buttonsContent}>
-              <FontAwesomeIcon 
-                icon={faArrowLeft} 
-                className={styles.buttonBack} 
-                onClick={prevPage} 
-                style={{ opacity: currentPage === 0 ? 0.5 : 1, cursor: currentPage === 0 ? "default" : "pointer" }}
-              />
-              <FontAwesomeIcon 
-                icon={faArrowRight} 
-                className={styles.buttonNext} 
-                onClick={nextPage} 
-                style={{ opacity: startIndex + numbersPerPage >= totalNumbers ? 0.5 : 1, cursor: startIndex + numbersPerPage >= totalNumbers ? "default" : "pointer" }}
-              />
+          {!(isSearching && filteredNumbers.length > 0) && (
+            <div className={styles.buttonsNextPrev}>
+              <div className={styles.buttonsContent}>
+                <FontAwesomeIcon 
+                  icon={faArrowLeft} 
+                  className={styles.buttonBack} 
+                  onClick={prevPage} 
+                  style={{ opacity: currentPage === 0 ? 0.5 : 1, cursor: currentPage === 0 ? "default" : "pointer" }}
+                />
+                <FontAwesomeIcon 
+                  icon={faArrowRight} 
+                  className={styles.buttonNext} 
+                  onClick={nextPage} 
+                  style={{ opacity: startIndex + numbersPerPage >= allNumbers.length ? 0.5 : 1, cursor: startIndex + numbersPerPage >= allNumbers.length ? "default" : "pointer" }}
+                />
+              </div>
             </div>
-          </div>
-
+          )}
           <div className={styles.btnPay}>
-            <button>Ir a pagar</button>
+            <button onClick={() => {
+              setIsModalOpen(true);
+              document.documentElement.style.overflow = "hidden";
+              document.body.style.overflow = "hidden";
+            }}> Ir a pagar
+            </button>
+          
+            <PaymentModal isOpen={isModalOpen} onClose={() => {
+              setIsModalOpen(false);
+              document.documentElement.style.overflow = "auto";
+              document.body.style.overflow = "auto";
+            }}
+              selectedNumbers={selectedNumbers}
+             />
           </div>
         </div>
 
