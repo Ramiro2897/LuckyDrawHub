@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "npm run server",
     "server": "nodemon src/server/server.ts",
-    "build": "cd client && npm run build",
-    "start": "tsc && node dist/server.js",
+    "build": "tsc && cd client && npm run build",
+    "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
