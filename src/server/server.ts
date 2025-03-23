@@ -46,8 +46,16 @@ app.get("/panel", (req, res) => {
 });
 
 // Conectar a la base de datos y levantar el servidor
+// Conectar a la base de datos y levantar el servidor
 AppDataSource.initialize()
-  .then(() => {
+  .then(async () => {
+    console.log("📦 Base de datos conectada!");
+    console.log("🚀 Ejecutando migraciones...");
+    
+    await AppDataSource.runMigrations(); // 🔥 Ejecutar migraciones al iniciar
+    
+    console.log("✅ Migraciones ejecutadas con éxito!");
+
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
     });
