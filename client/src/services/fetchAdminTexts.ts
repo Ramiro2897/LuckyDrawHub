@@ -13,6 +13,7 @@ export const fetchHeaderTextAdmin = async (token?: string): Promise<string> => {
     const response = await axios.get<TextResponse>(`${API_URL}/api/auth/headerText`, { headers });
     return response.data.text;
   } catch (error: any) {
+    console.error("Error al obtener el texto del header:", error);
     throw error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
   }
 };

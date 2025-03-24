@@ -9,10 +9,15 @@ const getTextByTitle = async (req: Request, res: Response, title: string): Promi
   try {
     // Verificar si el usuario está autenticado
     const user = (req as any).user;
-    if (!user) {
-      return res.status(401).json({ errors: { general: "Usuario no autenticado" } });
-    }
+    console.log('Usuario antes de verificar:', user);
 
+    if (!user) {
+      console.log('No se encontró el usuario, lo que indica que la autenticación falló');
+      return res.status(401).json({ errors: { general: "Usuario no autenticado" } });
+    } else {
+      console.log('Usuario autenticado:', user);
+    }
+    
     // Buscar el texto en la base de datos
     const text = await textRepository.findOne({ where: { title } });
 
