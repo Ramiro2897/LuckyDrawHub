@@ -39,6 +39,7 @@ const Panel = () => {
 
   
   const API_URL = import.meta.env.VITE_API_URL;
+  console.log("API URL definida:", API_URL); 
   // token del usuario para uso global
   const token = localStorage.getItem("token");
 

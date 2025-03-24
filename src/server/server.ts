@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { AppDataSource } from "../data-source"; 
 import authRoutes from "../routes/authRoutes"; 
+import createAdminUser from '../controllers/createAdminUser';
 
 // Configuración del servidor
 dotenv.config();
@@ -50,6 +51,7 @@ AppDataSource.initialize()
   .then(async () => {
     console.log("📦 Base de datos conectada!");
     console.log("🚀 Ejecutando migraciones...");
+    createAdminUser(); 
     
     await AppDataSource.runMigrations(); // 🔥 Ejecutar migraciones al iniciar
     
