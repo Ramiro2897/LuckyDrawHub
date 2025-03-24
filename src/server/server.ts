@@ -51,7 +51,7 @@ AppDataSource.initialize()
   .then(async () => {
     console.log("📦 Base de datos conectada!");
     console.log("🚀 Ejecutando migraciones...");
-    createAdminUser(); 
+    // createAdminUser(); 
     
     await AppDataSource.runMigrations(); // 🔥 Ejecutar migraciones al iniciar
     

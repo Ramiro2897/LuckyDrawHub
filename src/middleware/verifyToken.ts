@@ -13,16 +13,20 @@ const adminRepository = AppDataSource.getRepository(User);
 export const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.headers.authorization?.split(" ")[1]; // Extraer el token del header
+    console.log("Token recibido:", token);
     if (!token) {
+      console.log("No se encontró el token en la cabecera");
       res.status(401).json({ errors: { general: "Admin no autenticado" } });
       return;
     }
 
     // Decodificar el token
     const decoded = jwt.verify(token, SECRET_KEY) as { id: number, exp: number };
+    console.log("Token decodificado:", decoded);
 
     // Verificar si el token ha expirado
     if (decoded.exp * 1000 < Date.now()) {
+      console.log("El token ha expirado");
       res.status(401).json({ errors: { general: "Token expirado" } });
       return;
     }
@@ -31,12 +35,14 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
     const admin = await adminRepository.findOne({ where: { id: decoded.id } });
 
     if (!admin || !admin.session_uuid) {
+      console.log("Admin no tiene una sesión válida");
       res.status(403).json({ errors: { general: "Sesión no válida" } });
       return;
     }
 
     // Guardar el usuario en la request para su uso en otros controladores
     (req as any).user = admin;
+    console.log("Usuario autenticado:", admin);
 
     next(); // Pasar al siguiente middleware o controlador
   } catch (error: any) {

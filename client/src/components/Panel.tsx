@@ -36,8 +36,6 @@ const Panel = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-
-  
   const API_URL = import.meta.env.VITE_API_URL;
   console.log("API URL definida:", API_URL); 
   // token del usuario para uso global
