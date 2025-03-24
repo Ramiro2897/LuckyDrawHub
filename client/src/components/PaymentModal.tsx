@@ -122,7 +122,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
   
     const paymentData = {
       name: "Compra de números",
-      description: `Pago por ${selectedNumbers.length} números`, // ✅ Usa backticks
+      description: `Pago por ${selectedNumbers.length} números`, 
       invoice: newReference,
       currency: "COP",
       amount: totalAmount,
@@ -131,8 +131,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       country: "CO",
       lang: "es",
       external: "false",
-      confirmation: `${API_URL}/api/auth/payment-confirmation`, // ✅ Usa backticks
-      response: `${window.location.origin}/payment-success`, // ✅ Usa backticks
+      confirmation: `${API_URL}/api/auth/payment-confirmation`, 
+      response: `${window.location.origin}/payment-success`, 
       email_billing: email,
       name_billing: name,
       mobilephone_billing: phone,

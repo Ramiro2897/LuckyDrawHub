@@ -132,7 +132,6 @@ router.post('/upload', verifyToken, async (req, res) => {
 
 // ruta para agregar los números
 router.post('/generateNumbers', verifyToken, async (req, res) => {
-  console.log('peticion para agregar los números')
   await generateNumbers (req, res);
 });
 

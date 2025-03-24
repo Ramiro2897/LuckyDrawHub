@@ -7,7 +7,6 @@ const raffleNumberRepository = AppDataSource.getRepository(RaffleNumber);
 export const generateNumbers = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { totalNumbers, digits, startRange } = req.body;
-        console.log(totalNumbers, digits, startRange, 'lo que llega');
 
         // Validaciones
         if (!totalNumbers || !digits) {

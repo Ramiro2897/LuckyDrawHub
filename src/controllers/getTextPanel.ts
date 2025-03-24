@@ -9,10 +9,8 @@ const getTextByTitle = async (req: Request, res: Response, title: string): Promi
   try {
     // Verificar si el usuario está autenticado
     const user = (req as any).user;
-    console.log('Usuario antes de verificar:', user);
 
     if (!user) {
-      console.log('No se encontró el usuario, lo que indica que la autenticación falló');
       return res.status(401).json({ errors: { general: "Usuario no autenticado" } });
     } else {
       console.log('Usuario autenticado:', user);
@@ -27,7 +25,6 @@ const getTextByTitle = async (req: Request, res: Response, title: string): Promi
 
     return res.status(200).json({ text: text.content });
   } catch (error) {
-    console.error(`Error al obtener el texto (${title}):`, error);
     return res.status(500).json({ errors: { general: "Error interno del servidor" } });
   }
 };
