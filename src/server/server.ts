@@ -46,7 +46,6 @@ app.get("/panel", (req, res) => {
 });
 
 // Conectar a la base de datos y levantar el servidor
-// Conectar a la base de datos y levantar el servidor
 AppDataSource.initialize()
   .then(async () => {
     console.log("📦 Base de datos conectada!");

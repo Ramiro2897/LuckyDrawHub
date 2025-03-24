@@ -19,5 +19,5 @@ export const AppDataSource = new DataSource({
     synchronize: false, // ❌ Desactivar, usaremos migraciones
     entities: [User, generalTexts, Image, Raffle, RaffleNumber],
     subscribers: [],
-    migrations: [__dirname + "/migrations/*.ts"], // ✅ Activar migraciones
+    migrations: [__dirname + "/migrations/*.{ts,js}"], // ✅ Activar migraciones
 });
