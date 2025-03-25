@@ -32,7 +32,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
   const [selectedMunicipality, setSelectedMunicipality] = useState("");
   const [totalNumbers, setTotalNumbers] = useState("");
   const [totalAmount, setTotalAmount] = useState("10000");
-  const [reference, setReference] = useState(""); // 🔹 Guardará la referencia
+  const [reference, setReference] = useState(""); 
 
   console.log(reference, 'referencia');
 
@@ -93,12 +93,33 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
   }, [isOpen]);
 
   // funciona para cuando se hace el pago
-  const handleSubmit = () => {
+  const handleSubmit =  async () => {
     if (!window.ePayco) {
-      console.error("❌ ePayco no está cargado. Verifica que incluiste el script de ePayco en tu HTML.");
+      console.error("❌ ePayco no está cargado.");
       return;
     }
+
+    if (!selectedNumbers.length) {
+      console.error("❌ No hay números seleccionados.");
+      return;
+    }
+
+    const newReference = `INV-${Date.now()}`;
+    setReference(newReference);
+
+    try {
+      // 🔹 1. Mandamos SOLO la referencia al backend antes de abrir el checkout
+      await axios.post(`${API_URL}/api/auth/create-invoice`, {
+        invoice: newReference,
+        selectedNumbers,
+      });
   
+      console.log("✅ Referencia guardada en la base de datos:", newReference);
+    } catch (error) {
+      console.error("❌ Error al guardar la referencia:", error);
+      return; // 🔴 Si hay error, detenemos el proceso
+    }
+
     const data = {
       phone,
       name,
@@ -109,7 +130,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       totalNumbers,
       totalAmount
     };
-  
+
     console.log(data, 'datos a mandar');
   
     const handler = window.ePayco.checkout.configure({
@@ -117,9 +138,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       test: true, // 🔵 Ponlo en `false` si ya estás en producción
     });
 
-    const newReference = `INV-${Date.now()}`;
-    setReference(newReference);
-  
     const paymentData = {
       name: "Compra de números",
       description: `Pago por ${selectedNumbers.length} números`, 

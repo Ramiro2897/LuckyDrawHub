@@ -15,6 +15,7 @@ import { getImages } from "../controllers/imageController";
 import { generateNumbers } from "../controllers/generateNumbers";
 import { getNumbers } from "../controllers/getNumbers";
 import { getNumbersBySearch } from "../controllers/getNumbersBySearch";
+import { createReference } from "../controllers/createReference";
 import { paymentNumbers } from "../controllers/paymentNumbers";
 
 
@@ -135,6 +136,13 @@ router.post('/generateNumbers', verifyToken, async (req, res) => {
   await generateNumbers (req, res);
 });
 
+
+// ruta que recibe los números con la referencia de pago
+router.post('/create-invoice', async (req, res) => {
+  console.log('recibe los números para pagos');
+  await createReference (req, res);
+});
+
 // ruta para pagos
 router.post('/payment-confirmation', async (req, res) => {
   try {
@@ -150,17 +158,6 @@ router.post('/payment-confirmation', async (req, res) => {
     res.status(500).json({ errors: { general: 'Error interno del servidor' } });
   }
 });
-
-
-// router.post("/wompi/webhook", async (req, res) => {
-//   try {
-//     console.log("🔔 Webhook recibido");
-//     await wompiWebhook(req, res);
-//   } catch (error) {
-//     console.error("❌ Error en el Webhook:", error);
-//     res.status(500).json({ errors: { general: "Error interno del servidor" } });
-//   }
-// });
 
 
 

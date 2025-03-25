@@ -10,10 +10,13 @@ export class RaffleNumber {
   number: number;
 
   @Column({ default: false })
-  isSold: boolean; // Para marcar si el número está vendido
+  isSold: boolean; 
 
   @Column({ default: false })
-  isBlocked: boolean; // Para marcar si el número está bloqueado
+  isBlocked: boolean;
+
+  @Column({ type: "varchar", nullable: true }) // 🔹 Campo para la referencia de pago
+  paymentReference: string | null;
 
   @ManyToOne(() => Raffle, (raffle) => raffle.numbers, { onDelete: "CASCADE" })
   raffle: Raffle;

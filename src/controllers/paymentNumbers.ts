@@ -10,32 +10,39 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
         console.log("📩 Recibiendo confirmación de pago de ePayco...");
         console.log("🔹 Datos recibidos:", req.body);
 
-        const { x_transaction_state, x_cod_transaction_state, x_response, x_extra1 } = req.body;
-        console.log('valor de los numeros', x_extra1)
-
+        const { x_transaction_state, x_cod_transaction_state, x_response, x_invoice_num } = req.body;
+        console.log("📌 Referencia de pago recibida:", x_invoice_num);
 
         // Validamos el estado del pago
         if (x_transaction_state === "Aceptada" || x_cod_transaction_state === "1") {
             console.log("✅ Pago aprobado correctamente");
 
-            // Verificamos si se enviaron los números seleccionados
-            if (!x_extra1) {
-                console.warn("⚠️ No se recibieron números en la confirmación de pago.");
-                return res.status(400).json({ errors: { general: "No se enviaron números para bloquear." } });
+            // Verificamos que se haya recibido la referencia de pago
+            if (!x_invoice_num) {
+                console.warn("⚠️ No se recibió la referencia de pago.");
+                return res.status(400).json({ errors: { general: "No se recibió la referencia de pago." } });
             }
 
-            // Convertimos los números en un array
-            const numbersArray = x_extra1 ? x_extra1.split(",").map((num: string) => parseInt(num.trim())) : [];
+            // Buscar los números asociados a la referencia de pago
+            const numbersToUpdate = await AppDataSource.getRepository(RaffleNumber)
+                .createQueryBuilder("number")
+                .where("number.paymentReference = :reference", { reference: x_invoice_num })
+                .getMany();
 
-            // Marcamos los números como bloqueados en la base de datos
+            if (numbersToUpdate.length === 0) {
+                console.warn("⚠️ No se encontraron números asociados a esta referencia.");
+                return res.status(404).json({ errors: { general: "No hay números para bloquear." } });
+            }
+
+            // Bloquear y marcar como vendidos los números
             await AppDataSource.getRepository(RaffleNumber)
                 .createQueryBuilder()
                 .update(RaffleNumber)
-                .set({ isBlocked: true })
-                .where("number IN (:...numbers)", { numbers: numbersArray })
+                .set({ isBlocked: true, isSold: true })
+                .where("paymentReference = :reference", { reference: x_invoice_num })
                 .execute();
 
-            console.log("🔒 Números bloqueados exitosamente:", numbersArray);
+            console.log("🔒 Números bloqueados y vendidos exitosamente:", numbersToUpdate.map(n => n.number));
         } else {
             console.warn("❌ Pago rechazado o en proceso:", x_response);
         }
@@ -47,4 +54,3 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
         return res.status(500).json({ errors: { general: "Error interno del servidor" } });
     }
 };
-
