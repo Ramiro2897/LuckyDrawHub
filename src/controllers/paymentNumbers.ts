@@ -10,15 +10,15 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
         console.log("📩 Recibiendo confirmación de pago de ePayco...");
         console.log("🔹 Datos recibidos:", req.body);
 
-        const { x_transaction_state, x_cod_transaction_state, x_response, x_invoice_num } = req.body;
-        console.log("📌 Referencia de pago recibida:", x_invoice_num);
+        const { x_transaction_state, x_cod_transaction_state, x_response, x_id_invoice } = req.body;
+        console.log("📌 Referencia de pago recibida:", x_id_invoice);
 
         // Validamos el estado del pago
         if (x_transaction_state === "Aceptada" || x_cod_transaction_state === "1") {
             console.log("✅ Pago aprobado correctamente");
 
             // Verificamos que se haya recibido la referencia de pago
-            if (!x_invoice_num) {
+            if (!x_id_invoice) {
                 console.warn("⚠️ No se recibió la referencia de pago.");
                 return res.status(400).json({ errors: { general: "No se recibió la referencia de pago." } });
             }
@@ -26,7 +26,7 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
             // Buscar los números asociados a la referencia de pago
             const numbersToUpdate = await AppDataSource.getRepository(RaffleNumber)
                 .createQueryBuilder("number")
-                .where("number.paymentReference = :reference", { reference: x_invoice_num })
+                .where("number.paymentReference = :reference", { reference: x_id_invoice})
                 .getMany();
 
             if (numbersToUpdate.length === 0) {
@@ -39,7 +39,7 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
                 .createQueryBuilder()
                 .update(RaffleNumber)
                 .set({ isBlocked: true, isSold: true })
-                .where("paymentReference = :reference", { reference: x_invoice_num })
+                .where("paymentReference = :reference", { reference: x_id_invoice })
                 .execute();
 
             console.log("🔒 Números bloqueados y vendidos exitosamente:", numbersToUpdate.map(n => n.number));

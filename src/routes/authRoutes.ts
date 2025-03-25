@@ -146,8 +146,6 @@ router.post('/create-invoice', async (req, res) => {
 // ruta para pagos
 router.post('/payment-confirmation', async (req, res) => {
   try {
-    const { selected_numbers } = req.body;
-    console.log(selected_numbers, 'numeros a bloquear');
     console.log("✅ Confirmación de pago recibida:", req.body);
     console.log("🔍 Headers:", req.headers);
     console.log("🔍 Query Params:", req.query);

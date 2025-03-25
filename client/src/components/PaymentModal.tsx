@@ -154,7 +154,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       email_billing: email,
       name_billing: name,
       mobilephone_billing: phone,
-      x_extra1: selectedNumbers.join(","),
     };
   
     handler.open(paymentData);
