@@ -139,12 +139,16 @@ router.post('/generateNumbers', verifyToken, async (req, res) => {
 router.post('/payment-confirmation', async (req, res) => {
   try {
     console.log("✅ Confirmación de pago recibida:", req.body);
-    await paymentNumbers(req, res);
+    console.log("🔍 Headers:", req.headers);
+    console.log("🔍 Query Params:", req.query);
+
+    // await paymentNumbers(req, res);
   } catch (error) {
-    console.error('Error al procesar el pago:', error);
+    console.error('❌ Error al procesar el pago:', error);
     res.status(500).json({ errors: { general: 'Error interno del servidor' } });
   }
 });
+
 
 // router.post("/wompi/webhook", async (req, res) => {
 //   try {
