@@ -10,20 +10,22 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
         console.log("📩 Recibiendo confirmación de pago de ePayco...");
         console.log("🔹 Datos recibidos:", req.body);
 
-        const { x_transaction_state, x_cod_transaction_state, x_response, selected_numbers } = req.body;
+        const { x_transaction_state, x_cod_transaction_state, x_response, x_extra1 } = req.body;
+        console.log('valor de los numeros', x_extra1)
+
 
         // Validamos el estado del pago
         if (x_transaction_state === "Aceptada" || x_cod_transaction_state === "1") {
             console.log("✅ Pago aprobado correctamente");
 
             // Verificamos si se enviaron los números seleccionados
-            if (!selected_numbers) {
+            if (!x_extra1) {
                 console.warn("⚠️ No se recibieron números en la confirmación de pago.");
                 return res.status(400).json({ errors: { general: "No se enviaron números para bloquear." } });
             }
 
             // Convertimos los números en un array
-            const numbersArray = selected_numbers.split(",").map((num: string) => parseInt(num.trim()));
+            const numbersArray = x_extra1 ? x_extra1.split(",").map((num: string) => parseInt(num.trim())) : [];
 
             // Marcamos los números como bloqueados en la base de datos
             await AppDataSource.getRepository(RaffleNumber)
