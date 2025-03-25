@@ -138,11 +138,13 @@ router.post('/generateNumbers', verifyToken, async (req, res) => {
 // ruta para pagos
 router.post('/payment-confirmation', async (req, res) => {
   try {
+    const { selected_numbers } = req.body;
+    console.log(selected_numbers, 'numeros a bloquear');
     console.log("✅ Confirmación de pago recibida:", req.body);
     console.log("🔍 Headers:", req.headers);
     console.log("🔍 Query Params:", req.query);
 
-    // await paymentNumbers(req, res);
+    await paymentNumbers(req, res);
   } catch (error) {
     console.error('❌ Error al procesar el pago:', error);
     res.status(500).json({ errors: { general: 'Error interno del servidor' } });
