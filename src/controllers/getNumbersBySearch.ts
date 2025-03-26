@@ -17,7 +17,7 @@ export const getNumbersBySearch = async (req: Request, res: Response): Promise<R
         }
 
         const numbers = await raffleNumberRepository.find({
-            where: { number: Number(search), isBlocked: false },
+            where: { number: search.toString(), isBlocked: false },
             select: ["number"]
         });
 

@@ -120,7 +120,7 @@ body{
   justify-content: center;
   object-fit: cover; 
   box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.2);
-  transition: background-image 0.5s ease-in-out, filter 0.4s ease-in-out;
+  transition: opacity 0.6s ease-in-out;
 }
 
 
@@ -494,7 +494,7 @@ body{
 }
 
 
-.container .chooseNumbers .checkNumbers button {
+.container .chooseNumbers .checkNumbers .btnCheckNumbers {
   padding: 10px 15px;
   color: #f2f2f2;
   background: linear-gradient(45deg, #BF6849, #bf6849d0);
@@ -511,7 +511,7 @@ body{
 }
 
 /* Hover potente */
-.container .chooseNumbers .checkNumbers button:hover {
+.container .chooseNumbers .checkNumbers .btnCheckNumbers:hover {
   background: linear-gradient(45deg, #bf6849, #bf6849a6);
   box-shadow: 0 6px 12px #732C39;
   transform: scale(1.05);
@@ -519,7 +519,7 @@ body{
 }
 
 /* Efecto de brillo en hover */
-.container .chooseNumbers .checkNumbers button::before {
+.container .chooseNumbers .checkNumbers .btnCheckNumbers::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -531,7 +531,7 @@ body{
   transition: left 0.5s ease-in-out;
 }
 
-.container .chooseNumbers .checkNumbers button:hover::before {
+.container .chooseNumbers .checkNumbers .btnCheckNumbers:hover::before {
   left: 120%;
 }
 
@@ -695,6 +695,35 @@ body{
   color: #D90416;
   text-align: center;
 }
+
+/* icono de whatsAapp */
+.whatsappButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: #F2F2F2;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 24px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsappIcon{
+  color: #F2F2F2;
+}
+
+.whatsappButton:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.3);
+}
+
 
 /* estilos responsivos */
 @media (max-width: 768px) {

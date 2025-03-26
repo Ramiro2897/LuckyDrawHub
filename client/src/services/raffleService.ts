@@ -7,13 +7,12 @@ interface GenerateResponse {
 }
 
 // Función para generar números de la rifa
-export const generateRaffleNumbers = async (totalNumbers: number, digits: number, startRange: number,token?: string | null ): Promise<string> => {
-  console.log('lo que llega',  totalNumbers, digits, startRange)
+export const generateRaffleNumbers = async (totalNumbers: number, digits: number, startRange: string, rafflePrice: number, token?: string | null ): Promise<string> => {
   try {
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
     const response = await axios.post<GenerateResponse>(
       `${API_URL}/api/auth/generateNumbers`,
-      { totalNumbers, digits, startRange },
+      { totalNumbers, digits, startRange, rafflePrice },
       { headers }
     );
     return response.data.message;

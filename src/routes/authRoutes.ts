@@ -13,7 +13,7 @@ import { updateTextCardThree } from "../controllers/updateTextCardThreeControlle
 import { uploadImage } from "../controllers/uploadImage";
 import { getImages } from "../controllers/imageController";
 import { generateNumbers } from "../controllers/generateNumbers";
-import { getNumbers } from "../controllers/getNumbers";
+import { getNumbers, raffleProgress, NumbersBySearch } from "../controllers/getNumbers";
 import { getNumbersBySearch } from "../controllers/getNumbersBySearch";
 import { createReference } from "../controllers/createReference";
 import { paymentNumbers } from "../controllers/paymentNumbers";
@@ -55,12 +55,20 @@ router.get('/imagesPublic', async (req, res) => {
   await getPublicImages (req, res);
 });
 
+router.get('/raffleProgress', async (req, res) => {
+  await raffleProgress (req, res);
+});
+
 router.get('/allNumbers', async (req, res) => {
   await getNumbers (req, res);
 });
 
 router.get('/search', async (req, res) => {
   await getNumbersBySearch (req, res);
+});
+
+router.post('/searchNumbers', async (req, res) => {
+  await NumbersBySearch (req, res);
 });
 
 // ---------------------------------------
@@ -139,21 +147,20 @@ router.post('/generateNumbers', verifyToken, async (req, res) => {
 
 // ruta que recibe los números con la referencia de pago
 router.post('/create-invoice', async (req, res) => {
-  console.log('recibe los números para pagos');
+  // console.log('recibe los números para pagos');
   await createReference (req, res);
 });
 
 // ruta para pagos
 router.post('/payment-confirmation', async (req, res) => {
   try {
-    console.log("✅ Confirmación de pago recibida:", req.body);
-    console.log("🔍 Headers:", req.headers);
-    console.log("🔍 Query Params:", req.query);
-
+    // console.log("✅ Confirmación de pago recibida:", req.body);
+    // console.log("🔍 Headers:", req.headers);
+    // console.log("🔍 Query Params:", req.query);
     await paymentNumbers(req, res);
   } catch (error) {
     console.error('❌ Error al procesar el pago:', error);
-    res.status(500).json({ errors: { general: 'Error interno del servidor' } });
+    res.status(500).json({ errors: { general: 'Error interno del servidor' } }); //cambiar el tipo de error ahi 
   }
 });
 

@@ -6,8 +6,8 @@ export class RaffleNumber {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  number: number;
+  @Column({ type: "varchar", length: 4 }) 
+  number: string;
 
   @Column({ default: false })
   isSold: boolean; 
@@ -15,8 +15,20 @@ export class RaffleNumber {
   @Column({ default: false })
   isBlocked: boolean;
 
-  @Column({ type: "varchar", nullable: true }) // 🔹 Campo para la referencia de pago
+  @Column({ type: "varchar", nullable: true }) 
   paymentReference: string | null;
+
+  @Column({ type: "integer", nullable: false }) 
+  price: number;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  email: string | null;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  department: string | null;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  city: string | null;
 
   @ManyToOne(() => Raffle, (raffle) => raffle.numbers, { onDelete: "CASCADE" })
   raffle: Raffle;

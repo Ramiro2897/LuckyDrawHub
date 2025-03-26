@@ -78,10 +78,23 @@ export const fetchImagePublic = async (): Promise<string[]> => {
 };
 
 // Función para traer todos los números
-export const fetchAllNumbers = async (): Promise<number[]> => {
+export const fetchAllNumbers = async (): Promise<{ numbers: number[], price: number }> => {
   try {
-    const response = await axios.get<{ numbers: number[] }>(`${API_URL}/api/auth/allNumbers`);
-    return response.data.numbers;
+    const response = await axios.get<{ numbers: number[], price: number }>(`${API_URL}/api/auth/allNumbers`);
+    return { 
+      numbers: response.data.numbers,
+      price: response.data.price // 
+    };
+  } catch (error: any) {
+    throw { errors: { general: error.response?.data?.errors?.general || "Ocurrió un error inesperado." } };
+  }
+};
+
+// funcion para mostrar el progreso de l venta de numeros
+export const fetchRaffleProgress = async (): Promise<number> => {
+  try {
+    const response = await axios.get<{ percentage: number }>(`${API_URL}/api/auth/raffleProgress`);
+    return response.data.percentage;
   } catch (error: any) {
     throw { errors: { general: error.response?.data?.errors?.general || "Ocurrió un error inesperado." } };
   }
@@ -91,7 +104,6 @@ export const fetchAllNumbers = async (): Promise<number[]> => {
 interface NumbersResponse {
   numbers: number[];
 }
-
 export const fetchNumbersBySearch = async (query: string): Promise<number[]> => {
   try {
     const response = await axios.get<NumbersResponse>(`${API_URL}/api/auth/search`, {

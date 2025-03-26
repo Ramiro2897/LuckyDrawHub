@@ -32,7 +32,8 @@ const Panel = () => {
   const [imageList, setImageList] = useState<string[]>([]);
   const [totalNumbers, setTotalNumbers] = useState<number>(0);
   const [digits, setDigits] = useState<number>(3);
-  const [startRange, setStartRange] = useState<number>(0);
+  const [startRange, setStartRange] = useState<string>("");
+  const [rafflePrice, setRafflePrice] = useState<number | "">("");
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -203,7 +204,7 @@ const Panel = () => {
   // agregar numeros a la bd
   const handleGenerateNumbers = async () => {
     try {
-      const message = await generateRaffleNumbers(totalNumbers, digits, startRange, token);
+      const message = await generateRaffleNumbers(totalNumbers, digits, startRange, Number(rafflePrice) || 0, token);
   
       setErrors({});
       setShowModal(false);
@@ -212,7 +213,8 @@ const Panel = () => {
        // Limpiar inputs
       setTotalNumbers(0);
       setDigits(3);  
-      setStartRange(0);
+      setStartRange("0"); 
+      setRafflePrice("");
       setSuccessMessage(message);
       setTimeout(() => setSuccessMessage(null), 5000);
     } catch (error: any) {
@@ -244,7 +246,6 @@ const Panel = () => {
     }
   };
 
-   
   const openModal = () => {
     setShowModal(true);
     document.body.style.overflow = "hidden"; 
@@ -256,10 +257,6 @@ const Panel = () => {
     document.body.style.overflow = "auto"; 
     document.body.style.pointerEvents = "auto"; 
   };
-  
-  
-  
-
 
   return (
       <div className={styles.contentAll}>
@@ -412,16 +409,15 @@ const Panel = () => {
                 <option value="3">3 cifras</option>
                 <option value="4">4 cifras</option>
               </select>
-              <input type="text" placeholder="Prefijo (opcional)" />
-              <input type="text" placeholder="Rango de inicio" value={startRange || ""} 
-              onChange={(e) => setStartRange(Number(e.target.value))} />
+              <input type="text" placeholder="Valor de la rifa" value={rafflePrice || ""} onChange={(e) => setRafflePrice(Number(e.target.value))} />
+              <input type="text" placeholder="Rango de inicio" value={startRange} 
+              onChange={(e) => setStartRange(e.target.value)} />
             </div>
             <div className={styles.contentButton}>
               <button  onClick={openModal}>Generar</button>
             </div>
             
           </div>
-
 
       </div>
   );

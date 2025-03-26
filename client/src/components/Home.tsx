@@ -1,7 +1,8 @@
 import { useState, useEffect} from "react";
 import styles from '../styles/home.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy, faSearch, faChevronLeft, faChevronRight, faLock, faArrowLeft, faArrowRight  } from '@fortawesome/free-solid-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faTrophy, faSearch, faChevronLeft, faChevronRight, faLock, faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import { 
   fetchHeaderTextPublic, 
   fetchDateTextPublic, 
@@ -11,13 +12,15 @@ import {
   fetchCardThreeTextPublic, 
   fetchImagePublic, 
   fetchAllNumbers, 
+  fetchRaffleProgress,
   fetchNumbersBySearch 
 } from "../services/fetchTextPublic";
 import PaymentModal from "../components/PaymentModal";
+import ModalSearchNumber from "../components/ModalSearchNumber";
+
 
 import imgMercadoPago from '../assets/mercadopago.png';
 import imgMercado from '../assets/mercado-pago.png';
-
 
 const Home = () => {
   
@@ -39,7 +42,9 @@ const Home = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
   const [errors, setErrors] = useState<{ general?: string; search?: string }>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isModalSearchOpen, setIsModalSearchOpen] = useState(false);
+  const [raffleProgress, setRaffleProgress] = useState<number>(0);
+  const [rafflePrice, setRafflePrice] = useState(0);
 
 
   // pasar imagenes
@@ -98,7 +103,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [ headerText, dateText, prizeText, cardOneText, cardTwoText, cardThreeText, images, numbers ] = await Promise.all([
+        const [ headerText, dateText, prizeText, cardOneText, cardTwoText, cardThreeText, images, numbersData, progress ] = await Promise.all([
           fetchHeaderTextPublic(),
           fetchDateTextPublic(),
           fetchPrizeTextPublic(),
@@ -107,6 +112,7 @@ const Home = () => {
           fetchCardThreeTextPublic(),
           fetchImagePublic(),
           fetchAllNumbers(),
+          fetchRaffleProgress(),
         ]);
 
         setText(headerText);
@@ -117,7 +123,9 @@ const Home = () => {
         setTextCardThree(cardThreeText);
         setImagesPublic(images.slice(0, 4));
         setOtherImages(images.slice(4, 6));
-        setAllNumbers(numbers);
+        setAllNumbers(numbersData.numbers);
+        setRafflePrice(numbersData.price);
+        setRaffleProgress(progress);
       } catch (error: any) {
         const errorData = error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
         setErrors(errorData);
@@ -127,7 +135,6 @@ const Home = () => {
 
     fetchData();
   }, []);
-
 
   // realizar la busqueda
   const handleSearch = async () => {
@@ -233,8 +240,8 @@ const Home = () => {
           </div>
           {/* {barra de progreso} */}
           <div className={styles.progressBar}>
-            <progress className={styles.progress} value={70} max={100}></progress>
-            <span className={styles.progressText}>70% Vendido</span>
+            <progress className={styles.progress} value={raffleProgress} max={100}></progress>
+            <span className={styles.progressText}>{raffleProgress}% Vendido</span>
           </div>
         </div>
 
@@ -335,12 +342,28 @@ const Home = () => {
               document.body.style.overflow = "auto";
             }}
               selectedNumbers={selectedNumbers}
+              rafflePrice={rafflePrice} 
              />
           </div>
         </div>
 
         <div className={styles.checkNumbers}>
-          <button>Consultar mis números</button>
+          <button className={styles.btnCheckNumbers} onClick={() => {
+            setIsModalSearchOpen(true);
+            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
+          }}>
+            Consultar mis números
+          </button>
+        
+          <ModalSearchNumber 
+            isOpen={isModalSearchOpen} 
+            onClose={() => {
+              setIsModalSearchOpen(false);
+              document.documentElement.style.overflow = "auto";
+              document.body.style.overflow = "auto";
+            }} 
+          />
         </div>
       </div>
 
@@ -374,13 +397,16 @@ const Home = () => {
 
       </footer>
 
+      <div className={styles.whatsappButton}>
+        <a href="https://wa.me/573003307232" title="Contáctanos en WhatsApp" target="_blank" rel="noopener noreferrer">
+          <FontAwesomeIcon className={styles.whatsappIcon} icon={faWhatsapp} />
+        </a>
+      </div>
 
       {/* Mensajes de errores */}
       <p className={`${styles.errors} ${errors.general ? styles.show : ""}`}>
         {errors.general}
       </p>
-
-
 
     </div>
 

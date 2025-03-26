@@ -7,6 +7,7 @@ interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedNumbers: number[];
+  rafflePrice: number; 
 }
 
 interface Municipality {
@@ -22,7 +23,7 @@ declare global {
 }
 
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNumbers }) => {
+const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNumbers, rafflePrice }) => {
   const [departments, setDepartments] = useState<string[]>([]);
   const [municipalities, setMunicipalities] = useState<string[]>([]);
   const [selectedDepartment, setSelectedDepartment] = useState("");
@@ -30,11 +31,9 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selectedMunicipality, setSelectedMunicipality] = useState("");
-  const [totalNumbers, setTotalNumbers] = useState("");
   const [totalAmount, setTotalAmount] = useState("10000");
   const [reference, setReference] = useState(""); 
-
-  console.log(reference, 'referencia');
+  const [errors, setErrors] = useState<{ general?: string;}>({});
 
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -94,13 +93,59 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
 
   // funciona para cuando se hace el pago
   const handleSubmit =  async () => {
-    if (!window.ePayco) {
-      console.error("❌ ePayco no está cargado.");
+    setErrors({}); // Limpiar errores antes de validar
+
+    if (!phone.trim()) {
+      setErrors({ general: "El número de celular es obligatorio" });
+      setTimeout(() => setErrors({}), 5000);
+      return;
+    }
+
+    if (!/^\d{10}$/.test(phone)) {
+      setErrors({ general: "El celular debe tener 10 dígitos" });
+      setTimeout(() => setErrors({}), 5000);
+      return;
+    }
+
+    if (!name.trim()) {
+      setErrors({ general: "El nombre es obligatorio." });
+      setTimeout(() => setErrors({}), 5000);
+      return;
+    }
+
+    if (!email.trim()) {
+      setErrors({ general: "El correo es obligatorio." });
+      setTimeout(() => setErrors({}), 5000);
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErrors({ general: "El correo no es válido." });
+      setTimeout(() => setErrors({}), 5000);
+      return;
+    }
+
+    if (!selectedDepartment) {
+      setErrors({ general: "Seleccione un departamento." });
+      setTimeout(() => setErrors({}), 5000);
+      return;
+    }
+
+    if (!selectedMunicipality) {
+      setErrors({ general: "Seleccione un municipio." });
+      setTimeout(() => setErrors({}), 5000);
       return;
     }
 
     if (!selectedNumbers.length) {
-      console.error("❌ No hay números seleccionados.");
+      setErrors({ general: "Debe seleccionar al menos un número." });
+      setTimeout(() => setErrors({}), 5000);
+      return;
+    }
+
+    if (!window.ePayco) {
+      setErrors({ general: "Error al generar pago." });
+      setTimeout(() => setErrors({}), 5000);
       return;
     }
 
@@ -113,8 +158,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
         invoice: newReference,
         selectedNumbers,
       });
-  
-      console.log("✅ Referencia guardada en la base de datos:", newReference);
+
     } catch (error) {
       console.error("❌ Error al guardar la referencia:", error);
       return; // 🔴 Si hay error, detenemos el proceso
@@ -127,11 +171,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       department: selectedDepartment,
       municipality: selectedMunicipality,
       selectedNumbers,
-      totalNumbers,
       totalAmount
     };
-
-    console.log(data, 'datos a mandar');
   
     const handler = window.ePayco.checkout.configure({
       key: "2a80b76fd6da8d8cd394ce307725fc83", // 🔴 Reemplázalo con tu llave pública de ePayco
@@ -168,7 +209,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       <div className={styles.modal}>
         <div className={styles.titleAndError}>
           <h2>Completa tu compra</h2>
-          <p className={styles.error}>error</p>
+          <p className={styles.error}>{errors.general}</p>
         </div>
         <div className={styles.formGroup}>
           <label>Celular</label>
@@ -206,11 +247,11 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
         </div>
         <div className={styles.formGroup}>
           <label>Total Números</label>
-          <input type="number" placeholder="Cantidad total de números" value={totalNumbers} onChange={(e) => setTotalNumbers(e.target.value)} />
+          <input type="number" placeholder="Cantidad total de números"  readOnly value={selectedNumbers.length}/>
         </div>
         <div className={styles.formGroup}>
           <label>Total a pagar</label>
-          <input type="text" placeholder="$0.00" value={`$${totalAmount}`} onChange={(e) => setTotalAmount(e.target.value)} disabled />
+          <input type="text" placeholder="$0.00"  value={`$${String(selectedNumbers.length * rafflePrice)}`} disabled />
         </div>
         <div className={styles.contentButtons}>
           <button className={styles.submitButton} onClick={handleSubmit}>Pagar</button>

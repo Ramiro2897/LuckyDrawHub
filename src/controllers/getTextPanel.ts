@@ -13,7 +13,7 @@ const getTextByTitle = async (req: Request, res: Response, title: string): Promi
     if (!user) {
       return res.status(401).json({ errors: { general: "Usuario no autenticado" } });
     } else {
-      console.log('Usuario autenticado:', user);
+      // console.log('Usuario autenticado:', user);
     }
     
     // Buscar el texto en la base de datos

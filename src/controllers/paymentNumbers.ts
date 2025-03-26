@@ -8,7 +8,7 @@ dotenv.config();
 export const paymentNumbers = async (req: Request, res: Response): Promise<Response> => {
     try {
         console.log("📩 Recibiendo confirmación de pago de ePayco...");
-        console.log("🔹 Datos recibidos:", req.body);
+        // console.log("🔹 Datos recibidos:", req.body);
 
         const { x_transaction_state, x_cod_transaction_state, x_response, x_id_invoice } = req.body;
         console.log("📌 Referencia de pago recibida:", x_id_invoice);
