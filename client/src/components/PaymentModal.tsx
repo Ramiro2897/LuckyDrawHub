@@ -31,7 +31,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selectedMunicipality, setSelectedMunicipality] = useState("");
-  const [totalAmount, setTotalAmount] = useState("10000");
   const [reference, setReference] = useState(""); 
   const [errors, setErrors] = useState<{ general?: string;}>({});
 
@@ -164,6 +163,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       return; // 🔴 Si hay error, detenemos el proceso
     }
 
+    const totalAmount = String(selectedNumbers.length * rafflePrice);
     const data = {
       phone,
       name,
