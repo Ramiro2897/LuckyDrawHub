@@ -164,15 +164,15 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
     }
 
     const totalAmount = String(selectedNumbers.length * rafflePrice);
-    const data = {
-      phone,
-      name,
-      email,
-      department: selectedDepartment,
-      municipality: selectedMunicipality,
-      selectedNumbers,
-      totalAmount
-    };
+    // const data = {
+    //   phone,
+    //   name,
+    //   email,
+    //   department: selectedDepartment,
+    //   municipality: selectedMunicipality,
+    //   selectedNumbers,
+    //   totalAmount
+    // };
   
     const handler = window.ePayco.checkout.configure({
       key: "2a80b76fd6da8d8cd394ce307725fc83", // 🔴 Reemplázalo con tu llave pública de ePayco
