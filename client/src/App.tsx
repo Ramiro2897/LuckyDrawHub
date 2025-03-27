@@ -4,7 +4,9 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Panel from './components/Panel';
 import ProtectedRoute from './components/ProtectedRoute';
-import RedirectIfAuthenticated from './routes/RedirectIfAuthenticated'
+import RedirectIfAuthenticated from './routes/RedirectIfAuthenticated';
+import PaymentSuccessModal from './components/PaymentSuccessModal';
+
 
 
 
@@ -22,6 +24,9 @@ function App() {
         {/* componente panel de administrador */}
         <Route path="/panel"  element={ <ProtectedRoute><Panel /></ProtectedRoute>}/>
 
+        {/* componente de confirmación de pago */}
+        <Route path="/payment-success" element={<PaymentSuccessModal />} />
+  
       </Routes>
     </Router>
   );

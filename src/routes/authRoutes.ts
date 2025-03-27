@@ -154,13 +154,13 @@ router.post('/create-invoice', async (req, res) => {
 // ruta para pagos
 router.post('/payment-confirmation', async (req, res) => {
   try {
-    // console.log("✅ Confirmación de pago recibida:", req.body);
-    // console.log("🔍 Headers:", req.headers);
-    // console.log("🔍 Query Params:", req.query);
+    console.log("✅ Confirmación de pago recibida:", req.body);
+    console.log("🔍 Headers:", req.headers);
+    console.log("🔍 Query Params:", req.query);
     await paymentNumbers(req, res);
   } catch (error) {
     console.error('❌ Error al procesar el pago:', error);
-    res.status(500).json({ errors: { general: 'Error interno del servidor' } }); //cambiar el tipo de error ahi 
+    res.status(500).json({ errors: { general: 'Error interno del servidor' } }); 
   }
 });
 
