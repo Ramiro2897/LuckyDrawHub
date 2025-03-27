@@ -6,7 +6,6 @@ const PaymentSuccessModal = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const refPayco = searchParams.get("ref_payco"); 
-    console.log(refPayco, 'referencia haha')
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -21,10 +20,10 @@ const PaymentSuccessModal = () => {
         <div className={styles.overlay}>
             <div className={styles.modal}>
                 <h2>¡Pago Exitoso! 🎉</h2>
-                <p>Serás redirigido en unos segundos...</p>
                 <p className={styles.info_mensaje}>Puedes consultar tus números en nuestra página.</p>
                 <p className={styles.reference}>Referencia de pago: {refPayco}</p>
                 <div className={styles.loader}> 
+                <p className={styles.redirect}>Serás redirigido en unos segundos...</p>
                 </div>
             </div>
         </div>

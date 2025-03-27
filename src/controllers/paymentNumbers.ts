@@ -8,10 +8,10 @@ dotenv.config();
 export const paymentNumbers = async (req: Request, res: Response): Promise<Response> => {
     try {
         console.log("📩 Recibiendo confirmación de pago de ePayco...");
-        // console.log("🔹 Datos recibidos:", req.body);
 
-        const { x_transaction_state, x_cod_transaction_state, x_response, x_id_invoice } = req.body;
+        const { x_transaction_state, x_cod_transaction_state, x_response, x_id_invoice, x_customer_email } = req.body;
         console.log("📌 Referencia de pago recibida:", x_id_invoice);
+        console.log("📌 correo recibido:", x_customer_email);
 
         // Validamos el estado del pago
         if (x_transaction_state === "Aceptada" || x_cod_transaction_state === "1") {
@@ -38,7 +38,7 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
             await AppDataSource.getRepository(RaffleNumber)
                 .createQueryBuilder()
                 .update(RaffleNumber)
-                .set({ isBlocked: true, isSold: true })
+                .set({ isBlocked: true, isSold: true, email: x_customer_email })
                 .where("paymentReference = :reference", { reference: x_id_invoice })
                 .execute();
 

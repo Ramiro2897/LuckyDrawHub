@@ -13,7 +13,7 @@
 .modal {
   background: #ffffff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 5px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
   width: 90%;
@@ -41,16 +41,29 @@
 
 .modal p {
   color: #403C3A;
-  font-size: 16px;
+  font-size: .9rem;
   line-height: 1.4;
-  margin-bottom: 12px;
+  margin: 10px 0;
 }
 
 .modal .info_message {
-  color: #555;
-  font-size: 14px;
+  color: #403C3A;
+  font-size: .9rem;
   font-style: italic;
   margin-top: 10px;
+}
+
+.modal .reference{
+  color: #403C3A;
+  padding: 4px;
+  border-radius: 5px;
+  border: 1px solid #403c3a2f;
+  max-width: 100%; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
+  text-align: center; 
+  display: inline-block;
+  font-weight: 600;
 }
 
 
@@ -64,7 +77,7 @@
   border-radius: 30px;
   background-color: rgba(0,0,0,0.2);
   position: relative;
-  margin-top: 10px;
+  margin: 20px 0;
 }
 
 .loader::before {
@@ -90,4 +103,11 @@
     right: 0;
     left: unset;
   }
+}
+
+.modal .redirect {
+  color: #403C3A;
+  font-size: .8rem;
+  line-height: 1.4;
+  padding: 8px 0;
 }

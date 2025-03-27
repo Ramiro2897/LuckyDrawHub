@@ -48,10 +48,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
     if (!reference) return;
   
     axios.get(`https://secure.epayco.co/validation/v1/reference/${reference}`)
-      .then(({ data }) => {
-        console.log("Respuesta completa de ePayco:", data); 
-        const response = data as EpaycoResponse;
-        console.log("Estado de la transacción:", response.data?.x_transaction_state);
+      .then(({ data }) => { 
+         data as EpaycoResponse;
       })
       .catch(err => console.error("Error al consultar el pago:", err));
   }, [reference]);
