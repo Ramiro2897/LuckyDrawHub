@@ -175,8 +175,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
     // };
   
     const handler = window.ePayco.checkout.configure({
-      key: "2a80b76fd6da8d8cd394ce307725fc83", // 🔴 Reemplázalo con tu llave pública de ePayco
-      test: true, // 🔵 Ponlo en `false` si ya estás en producción
+      key: import.meta.env.VITE_EPAYCO_PUBLIC_KEY, 
+      test: true, // modo pruebas...
     });
 
     const paymentData = {
