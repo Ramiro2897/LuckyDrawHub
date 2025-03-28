@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { RaffleNumber } from "../entities/RaffleNumber";
 import dotenv from "dotenv";
+import { errorFunction } from "./getNumbers";
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
             const alreadySold = numbersToUpdate.filter(n => n.isSold);
             if (alreadySold.length > 0) {
                 console.warn("⚠️ Algunos números ya fueron vendidos:", alreadySold.map(n => n.number));
+                errorFunction();
                 await queryRunner.rollbackTransaction();
                 return res.status(400).json({ errors: { general: "Algunos números ya fueron vendidos a otro usuario." } });
             }

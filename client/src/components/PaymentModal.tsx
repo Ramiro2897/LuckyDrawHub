@@ -10,11 +10,6 @@ interface PaymentModalProps {
   rafflePrice: number; 
 }
 
-interface Municipality {
-  departamento: string;
-  municipio: string;
-}
-
 export {};
 declare global {
   interface Window {
@@ -24,13 +19,9 @@ declare global {
 
 
 const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNumbers, rafflePrice }) => {
-  const [departments, setDepartments] = useState<string[]>([]);
-  const [municipalities, setMunicipalities] = useState<string[]>([]);
-  const [selectedDepartment, setSelectedDepartment] = useState("");
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [selectedMunicipality, setSelectedMunicipality] = useState("");
   const [reference, setReference] = useState(""); 
   const [errors, setErrors] = useState<{ general?: string;}>({});
 
@@ -52,40 +43,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       })
       .catch(err => console.error("Error al consultar el pago:", err));
   }, [reference]);
-  
-
-  useEffect(() => {
-    axios.get<Municipality[]>("https://www.datos.gov.co/resource/xdk5-pm3f.json")
-      .then(response => {
-        const uniqueDepartments = Array.from(
-          new Set(response.data.map(item => item.departamento))
-        ).filter(Boolean) as string[];
-        setDepartments(uniqueDepartments);
-      })
-      .catch(error => console.error("Error al obtener los departamentos:", error));
-  }, []);
-
-  const handleDepartmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const department = e.target.value;
-    setSelectedDepartment(department);
-    setMunicipalities([]);
-
-    axios.get<Municipality[]>("https://www.datos.gov.co/resource/xdk5-pm3f.json")
-      .then(response => {
-        const filteredMunicipalities = response.data
-          .filter(item => item.departamento === department)
-          .map(item => item.municipio);
-        setMunicipalities(filteredMunicipalities);
-      })
-      .catch(error => console.error("Error al obtener los municipios:", error));
-  };
-
-  useEffect(() => {
-    if (!isOpen) {
-      setSelectedDepartment(""); 
-      setMunicipalities([]);
-    }
-  }, [isOpen]);
 
   // funciona para cuando se hace el pago
   const handleSubmit =  async () => {
@@ -121,18 +78,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       return;
     }
 
-    if (!selectedDepartment) {
-      setErrors({ general: "Seleccione un departamento." });
-      setTimeout(() => setErrors({}), 5000);
-      return;
-    }
-
-    if (!selectedMunicipality) {
-      setErrors({ general: "Seleccione un municipio." });
-      setTimeout(() => setErrors({}), 5000);
-      return;
-    }
-
     if (!selectedNumbers.length) {
       setErrors({ general: "Debe seleccionar al menos un número." });
       setTimeout(() => setErrors({}), 5000);
@@ -161,15 +106,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
     }
 
     const totalAmount = String(selectedNumbers.length * rafflePrice);
-    // const data = {
-    //   phone,
-    //   name,
-    //   email,
-    //   department: selectedDepartment,
-    //   municipality: selectedMunicipality,
-    //   selectedNumbers,
-    //   totalAmount
-    // };
   
     const handler = window.ePayco.checkout.configure({
       key: import.meta.env.VITE_EPAYCO_PUBLIC_KEY, 
@@ -197,8 +133,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
     handler.open(paymentData);
   };
   
-  
-
   if (!isOpen) return null;
 
   return (
@@ -219,24 +153,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
         <div className={styles.formGroup}>
           <label>Correo</label>
           <input type="email" placeholder="Ingresa tu correo" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Departamento</label>
-          <select onChange={handleDepartmentChange}>
-            <option value="">Seleccione un departamento</option>
-            {departments.map((dept, index) => (
-              <option key={index} value={dept}>{dept}</option>
-            ))}
-          </select>
-        </div>
-        <div className={styles.formGroup}>
-          <label>Municipio</label>
-          <select disabled={!selectedDepartment} onChange={(e) => setSelectedMunicipality(e.target.value)}>
-            <option value="">Seleccione un municipio</option>
-            {municipalities.map((mun, index) => (
-              <option key={index} value={mun}>{mun}</option>
-            ))}
-          </select>
         </div>
         <div className={styles.formGroup}>
           <label>Números seleccionados</label>

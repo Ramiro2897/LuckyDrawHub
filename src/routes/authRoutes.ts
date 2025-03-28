@@ -13,7 +13,7 @@ import { updateTextCardThree } from "../controllers/updateTextCardThreeControlle
 import { uploadImage } from "../controllers/uploadImage";
 import { getImages } from "../controllers/imageController";
 import { generateNumbers } from "../controllers/generateNumbers";
-import { getNumbers, raffleProgress, NumbersBySearch } from "../controllers/getNumbers";
+import { getNumbers, raffleProgress, NumbersBySearch, getErrorCompra } from "../controllers/getNumbers";
 import { getNumbersBySearch } from "../controllers/getNumbersBySearch";
 import { createReference } from "../controllers/createReference";
 import { paymentNumbers } from "../controllers/paymentNumbers";
@@ -162,6 +162,10 @@ router.post('/payment-confirmation', async (req, res) => {
     console.error('❌ Error al procesar el pago:', error);
     res.status(500).json({ errors: { general: 'Error interno del servidor' } }); 
   }
+});
+
+router.get("/error-compra", async (req, res) => {
+  res.json({ error: getErrorCompra() });
 });
 
 

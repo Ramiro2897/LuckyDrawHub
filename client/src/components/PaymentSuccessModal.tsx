@@ -16,6 +16,24 @@ const PaymentSuccessModal = () => {
     const refPayco = searchParams.get("ref_payco");
     const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
 
+    const API_URL = import.meta.env.VITE_API_URL;
+
+    useEffect(() => {
+        const checkPurchaseError = async () => {
+            try {
+                const response = await axios.get<{ error: string | null }>(`${API_URL}/error-compra`);
+                if (response.data.error) {
+                    alert(response.data.error);
+                }
+            } catch (error) {
+                console.error("❌ Error al verificar la compra:", error);
+            }
+        };
+    
+        checkPurchaseError();
+    }, []);
+    
+
     useEffect(() => {
         if (!refPayco) {
             navigate("/"); 
@@ -24,18 +42,13 @@ const PaymentSuccessModal = () => {
 
         axios.get<EpaycoResponse>(`https://secure.epayco.co/validation/v1/reference/${refPayco}`)
             .then(({ data }) => {
-                console.log("📌 Respuesta de ePayco:", data);
-
                 // Acceder correctamente al estado de la transacción
                 const state = data.data.x_transaction_state;
 
                 if (!state) {
-                    console.warn("⚠️ No se encontró el estado de la transacción en la respuesta.");
                     navigate("/");
                     return;
                 }
-
-                console.log("📌 Estado del pago:", state);
                 
                 if (state === "Aceptada") {
                     setIsSuccess(true);

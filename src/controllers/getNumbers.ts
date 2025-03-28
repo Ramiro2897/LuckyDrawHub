@@ -65,3 +65,15 @@ export const NumbersBySearch = async (req: Request, res: Response): Promise<Resp
         return res.status(500).json({ errors: { general: "Error interno del servidor" } });
     }
 };
+
+let errorCompra: string | null = null;
+
+export function errorFunction() {
+    console.log('entra al error...')
+    errorCompra = "Algunos números ya fueron vendidos a otro usuario.";
+}
+
+export function getErrorCompra() {
+    return errorCompra;
+}
+
