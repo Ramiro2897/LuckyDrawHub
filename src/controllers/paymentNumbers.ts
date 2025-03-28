@@ -61,8 +61,7 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
             }
 
             // Validar que el monto pagado coincide con el precio de los números
-            const pricePerNumber = 5000; // Cambia esto por el precio real que uses
-            const expectedAmount = numbersToUpdate.length * pricePerNumber;
+            const expectedAmount = numbersToUpdate.reduce((total, num) => total + num.price, 0);
 
             if (Number(x_amount) !== expectedAmount) {
                 console.warn(`⚠️ Monto incorrecto. Esperado: ${expectedAmount}, Recibido: ${x_amount}`);
