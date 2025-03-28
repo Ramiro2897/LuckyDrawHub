@@ -2,7 +2,7 @@ import { useState, useEffect} from "react";
 import styles from '../styles/home.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faTrophy, faSearch, faChevronLeft, faChevronRight, faLock, faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import { faTrophy, faSearch, faChevronLeft, faChevronRight, faLock, faArrowLeft, faArrowRight, faCreditCard} from '@fortawesome/free-solid-svg-icons';
 import { 
   fetchHeaderTextPublic, 
   fetchDateTextPublic, 
@@ -156,7 +156,6 @@ const Home = () => {
     }
   };
   
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -263,6 +262,12 @@ const Home = () => {
 
       <div className={styles.chooseNumbers}>
         <h3>Escoge tus números 👇</h3>
+        <div className={styles.messageInfo}>
+          <p>A continuación, encontrarás los números disponibles. 
+            Elige los de tu interés y presiona 'Pagar ahora' para completar tu compra. 
+            ¡Asegura tu oportunidad de ganar!
+          </p>
+        </div>
         <div className={styles.searchNumbers}>
           <input type="text" placeholder="Buscar números..."  value={searchTerm}
            onChange={handleInputChange} 
@@ -329,11 +334,11 @@ const Home = () => {
             </div>
           )}
           <div className={styles.btnPay}>
-            <button onClick={() => {
+            <button className={styles.btnPayment} onClick={() => {
               setIsModalOpen(true);
               document.documentElement.style.overflow = "hidden";
               document.body.style.overflow = "hidden";
-            }}> Ir a pagar
+            }}> <FontAwesomeIcon icon={faCreditCard}  style={{ marginRight: "8px" }}/> Pagar ahora
             </button>
           
             <PaymentModal isOpen={isModalOpen} onClose={() => {

@@ -282,7 +282,6 @@ select:disabled {
   font-weight: 600;
 }
 
-
 @media (max-width: 480px) {
   .formGroup {
     width: calc(100% - 0px); /* 🔹 Dos columnas */

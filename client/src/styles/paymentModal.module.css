@@ -128,17 +128,46 @@ select:disabled {
   border-radius: 4px;
   text-align: center;
   background-color: #758C51 !important;
+  cursor: pointer;
+  border: none;
+}
+
+.submitButton {
+  transition: transform 0.2s ease-out;
+}
+
+.submitButton:hover {
+  transform: scale(1.05);
+}
+
+.submitButton:active {
+  transform: scale(1);
+  transition: transform 0.1s ease-in;
 }
 
 .closeButton{
   padding: 8px;
   width: 50%;
   margin-top: 10px;
-  /* cursor: pointer; */
+  cursor: pointer;
   font-size: 0.85rem;
   border-radius: 4px;
   text-align: center;
   background-color: #BF6849 !important;
+  border: none;
+}
+
+.closeButton {
+  transition: transform 0.2s ease-out;
+}
+
+.closeButton:hover {
+  transform: scale(1.05);
+}
+
+.closeButton:active {
+  transform: scale(1);
+  transition: transform 0.1s ease-in;
 }
 
 @media (max-width: 480px) {

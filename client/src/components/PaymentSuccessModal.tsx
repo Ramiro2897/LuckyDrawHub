@@ -18,7 +18,7 @@ const PaymentSuccessModal = () => {
 
     useEffect(() => {
         if (!refPayco) {
-            navigate("/"); // Si no hay referencia, ir al inicio
+            navigate("/"); 
             return;
         }
 
@@ -41,12 +41,12 @@ const PaymentSuccessModal = () => {
                     setIsSuccess(true);
                 } else {
                     setIsSuccess(false);
-                    navigate("/"); // Si el pago fue rechazado o falló, redirigir de inmediato
+                    navigate("/");
                 }
             })
             .catch(err => {
                 console.error("❌ Error al consultar el pago:", err);
-                navigate("/"); // En caso de error, redirigir al inicio
+                navigate("/"); 
             });
     }, [refPayco, navigate]);
 

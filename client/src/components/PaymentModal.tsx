@@ -43,7 +43,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
     };
   }
   
-
   useEffect(() => {
     if (!reference) return;
   
