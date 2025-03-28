@@ -30,6 +30,9 @@ export class RaffleNumber {
   @Column({ type: "varchar", length: 255, nullable: true })
   city: string | null;
 
+  @Column({ type: "varchar", length: 20, nullable: true }) 
+  mobile: string | null;
+
   @ManyToOne(() => Raffle, (raffle) => raffle.numbers, { onDelete: "CASCADE" })
   raffle: Raffle;
 }

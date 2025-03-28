@@ -73,7 +73,13 @@ export const paymentNumbers = async (req: Request, res: Response): Promise<Respo
             await queryRunner.manager.update(
                 RaffleNumber,
                 { paymentReference: x_id_invoice },
-                { isBlocked: true, isSold: true, email: x_customer_email }
+                { 
+                    isBlocked: true, 
+                    isSold: true, 
+                    email: x_customer_email,
+                    mobile: req.body.x_customer_movil,
+                    city: req.body.x_customer_city 
+                }
             );
 
             console.log("🔒 Números bloqueados y vendidos exitosamente:", numbersToUpdate.map(n => n.number));
