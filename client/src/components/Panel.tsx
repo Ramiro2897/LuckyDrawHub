@@ -38,7 +38,6 @@ const Panel = () => {
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL;
-  console.log("API URL definida:", API_URL); 
   // token del usuario para uso global
   const token = localStorage.getItem("token");
 
@@ -72,7 +71,6 @@ const Panel = () => {
         });
 
         const newImageUrl = response.data.url;
-        console.log('🔄 Se agregó o actualizó una imagen:', newImageUrl);
 
         setImageList((prevImages) => {
           const newImageBase = newImageUrl.replace(/\.[^.]+$/, ""); // Remueve la extensión
@@ -107,7 +105,6 @@ const Panel = () => {
 
         setTimeout(() =>  setSuccessMessage(""), 5000); 
     } catch (error: any) {
-      console.error(error, 'el error completo')
       const errorData = error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
       setSuccessMessage(""); // Asegura que el mensaje de éxito desaparezca
       setErrors(errorData); 
@@ -181,8 +178,6 @@ const Panel = () => {
           fetchCardThreeText(token),
           fetchImages(token),
         ]);
-
-        // console.log("🖼️ Imágenes recibidas en el frontend:", images);
 
         setText(headerText);
         setTextDate(dateText);

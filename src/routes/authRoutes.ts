@@ -13,7 +13,7 @@ import { updateTextCardThree } from "../controllers/updateTextCardThreeControlle
 import { uploadImage } from "../controllers/uploadImage";
 import { getImages } from "../controllers/imageController";
 import { generateNumbers } from "../controllers/generateNumbers";
-import { getNumbers, raffleProgress, NumbersBySearch, getErrorCompra } from "../controllers/getNumbers";
+import { getNumbers, raffleProgress, NumbersBySearch } from "../controllers/getNumbers";
 import { getNumbersBySearch } from "../controllers/getNumbersBySearch";
 import { createReference } from "../controllers/createReference";
 import { paymentNumbers } from "../controllers/paymentNumbers";
@@ -155,8 +155,8 @@ router.post('/create-invoice', async (req, res) => {
 router.post('/payment-confirmation', async (req, res) => {
   try {
     console.log("✅ Confirmación de pago recibida:", req.body);
-    console.log("🔍 Headers:", req.headers);
-    console.log("🔍 Query Params:", req.query);
+    // console.log("🔍 Headers:", req.headers);
+    // console.log("🔍 Query Params:", req.query);
     await paymentNumbers(req, res);
   } catch (error) {
     console.error('❌ Error al procesar el pago:', error);
@@ -164,9 +164,6 @@ router.post('/payment-confirmation', async (req, res) => {
   }
 });
 
-router.get("/error-compra", async (req, res) => {
-  res.json({ error: getErrorCompra() });
-});
 
 
 

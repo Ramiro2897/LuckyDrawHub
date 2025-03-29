@@ -41,7 +41,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
       .then(({ data }) => { 
          data as EpaycoResponse;
       })
-      .catch(err => console.error("Error al consultar el pago:", err));
+      .catch(() => {});
   }, [reference]);
 
   // funciona para cuando se hace el pago
@@ -100,9 +100,11 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, selectedNu
         selectedNumbers,
       });
 
-    } catch (error) {
-      console.error("❌ Error al guardar la referencia:", error);
-      return; // 🔴 Si hay error, detenemos el proceso
+    } catch (error: any) {
+      const errorData = error.response?.data?.errors || { general: "Ocurrió un error inesperado." };
+      setErrors(errorData);
+      setTimeout(() => setErrors({}), 5000);
+      return;
     }
 
     const totalAmount = String(selectedNumbers.length * rafflePrice);

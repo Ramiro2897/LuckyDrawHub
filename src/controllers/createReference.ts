@@ -21,7 +21,7 @@ export const createReference = async (req: Request, res: Response) => {
     });
 
     if (numbersToUpdate.length !== selectedNumbers.length) {
-      return res.status(400).json({ errors: { general: "Algunos números no están disponibles" } });
+      return res.status(400).json({ errors: { general: "Número(s) ya vendido(s), elige otro(s)." } });
     }
 
     // Actualizamos los números con la referencia de pago

@@ -16,23 +16,6 @@ const PaymentSuccessModal = () => {
     const refPayco = searchParams.get("ref_payco");
     const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
 
-    const API_URL = import.meta.env.VITE_API_URL;
-
-    useEffect(() => {
-        const checkPurchaseError = async () => {
-            try {
-                const response = await axios.get<{ error: string | null }>(`${API_URL}/error-compra`);
-                if (response.data.error) {
-                    alert(response.data.error);
-                }
-            } catch (error) {
-                console.error("❌ Error al verificar la compra:", error);
-            }
-        };
-    
-        checkPurchaseError();
-    }, []);
-    
 
     useEffect(() => {
         if (!refPayco) {
@@ -57,10 +40,8 @@ const PaymentSuccessModal = () => {
                     navigate("/");
                 }
             })
-            .catch(err => {
-                console.error("❌ Error al consultar el pago:", err);
-                navigate("/"); 
-            });
+            .catch(() => navigate("/"));
+
     }, [refPayco, navigate]);
 
     useEffect(() => {
