@@ -53,8 +53,8 @@ AppDataSource.initialize()
     console.log("📦 Base de datos conectada!");
     console.log("🚀 Ejecutando migraciones...");
     // funcion para crear admin
-    // createAdminUser(); 
     await AppDataSource.runMigrations(); // 🔥 Ejecutar migraciones al iniciar
+    // await createAdminUser();  
     console.log("✅ Migraciones ejecutadas con éxito!");
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);

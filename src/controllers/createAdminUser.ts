@@ -3,7 +3,7 @@ import { AppDataSource } from '../data-source';
 import { User } from '../entities/User'; 
 
 const createAdminUser = async () => {
-  const password = 'luisca96'; 
+  const password = 'Castrogar12'; 
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Crear un nuevo objeto Admin
