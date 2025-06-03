@@ -2,25 +2,26 @@
 FROM node:20-slim AS client-builder
 WORKDIR /app
 COPY client ./client
-COPY client/package.json client/package-lock.json ./client/
 RUN cd client && npm install && npm run build
 
-# Etapa 2: Backend + frontend en producción
+# Etapa 2: Backend + frontend
 FROM node:20-slim AS server
 WORKDIR /app
 
-# Copiar backend
+# Copiar todo el backend
 COPY . .
 
-# Reemplazar client/build generado
+# Reemplazar la carpeta build del cliente con la generada
 RUN rm -rf client/build
 COPY --from=client-builder /app/client/build ./client/build
 
-# Instalar dependencias backend
+# Instalar dependencias y compilar backend
 RUN npm install
+RUN npm run build
 
-# Puerto de escucha
+# Puerto para Dokploy o cualquier PaaS
 EXPOSE 3000
 
-# Comando para iniciar el backend
+# Comando para arrancar el backend
 CMD ["npm", "start"]
+
